@@ -1,5 +1,5 @@
 import { InputFieldPropsType } from "./InputFieldPropsType";
-import { Input,InputDiv } from "./InputFieldStyle";
+import { Input, InputDiv } from "./InputFieldStyle";
 export const InputField: React.FC<InputFieldPropsType> = ({
   type,
   id,
@@ -7,12 +7,20 @@ export const InputField: React.FC<InputFieldPropsType> = ({
   label,
   name,
   value,
-  handleFormDataChange
+  handleFormDataChange,
 }) => {
   return (
-    <InputDiv>
+    <InputDiv >
       <label>{label}</label>
-      <Input type={type} id={id} placeholder={placeholder} name={name} value={value} onChange={handleFormDataChange}/>
+      <Input
+      data-testid={name}
+        type={type}
+        id={id}
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onChange={handleFormDataChange}
+      />
     </InputDiv>
   );
 };

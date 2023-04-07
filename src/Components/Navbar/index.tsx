@@ -3,7 +3,6 @@ import {
   faSearch,
   faShoppingCart,
   faHeart,
-  faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   NavBar,
@@ -12,93 +11,69 @@ import {
   SearchBar,
   NavItems,
   Button,
-  LoginButton,
-  NavItem,
 } from "./NavbarStyle";
-import { UserStatusInterface } from "./NavbarInterface";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { signOutUser, User } from "../../Redux/Actions";
-import {
-  collection,
-  getDocs,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "../../Firebase";
-import { WishlistState } from "../../Redux/Reducer/SetWishlistItems";
-import { CartItemState } from "../../Redux/Reducer/SetCartItems";
+import {useDispatch } from "react-redux";
+import { useState } from "react";
+import ProfileIcon from "../ProfileComponent";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const emailId = localStorage.getItem("email");
-  const cartItems = useSelector((state: CartItemState) => state.cartItem);
-  const wishlistItems = useSelector(
-    (state: WishlistState) => state.wishlistItems
-  );
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    navigate(`/search/${searchQuery}`);
+  };
 
   return (
     <NavBar>
-      <Logo>Shopify</Logo>
+      <Logo
+        onClick={() => {
+          navigate(`/`);
+        }}
+      >
+        Shopify
+      </Logo>
       <NavItems>
         <SearchBar>
-          <SearchInput placeholder="Search..." />
-          <FontAwesomeIcon icon={faSearch} />
+          <SearchInput
+            placeholder="Search..."
+            onChange={(event) => {
+              handleChange(event);
+            }}
+          />
+          <FontAwesomeIcon
+            icon={faSearch as IconProp}
+            onClick={() => {
+              handleSubmit();
+            }}
+          />
         </SearchBar>
         <div>
           <Button
             onClick={() => {
-              navigate("/");
+              !emailId ? navigate(`/login`) : navigate("/wishlist");
             }}
           >
-            <FontAwesomeIcon icon={faHome} />
-          </Button>
-
-          <Button
-            onClick={() => {
-              navigate("/wishlist");
-            }}
-          >
-            <FontAwesomeIcon icon={faHeart} />
+            <FontAwesomeIcon icon={faHeart as IconProp}></FontAwesomeIcon>
           </Button>
           <Button
             onClick={() => {
               !emailId ? navigate("/login") : navigate("/cart");
             }}
           >
-            <FontAwesomeIcon icon={faShoppingCart} />
+            <FontAwesomeIcon icon={faShoppingCart as IconProp} />
+          </Button>
+            <Button>
+            <ProfileIcon></ProfileIcon>
           </Button>
         </div>
-        {!emailId && (
-          <LoginButton
-            onClick={() => {
-              navigate("/login");
-            }}
-          >
-            Login / Signup
-          </LoginButton>
-        )}
-        {emailId && (
-          <LoginButton
-            onClick={async () => {
-              const userDocRef = doc(collection(db, "users"), emailId);
-              try {
-                await updateDoc(userDocRef, { cartItems, wishlistItems });
-                console.log("Cart and wishlist updated successfully");
-              } catch (error) {
-                console.error("Error updating cart and wishlist: ", error);
-              }
-              localStorage.removeItem("email");
-              dispatch(signOutUser());
-              navigate("/");
-            }}
-          >
-            Log Out
-          </LoginButton>
-        )}
       </NavItems>
     </NavBar>
   );

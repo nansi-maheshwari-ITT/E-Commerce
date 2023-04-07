@@ -1,10 +1,15 @@
 import styled from "styled-components";
+import theme from "../../Theme";
 
 const SignUpFormContainer=styled.div`
 width:100vw;
 height:100vh;
-background: linear-gradient(135deg, rgb(98 124 98), rgb(28 62 28));
-color:white;
+background: linear-gradient(
+    135deg,
+    ${theme.colors.tertiary},
+    ${theme.colors.background}
+  );
+  color: ${theme.colors.text};
 position:fixed;
 
 .form-container{
@@ -13,7 +18,10 @@ position:fixed;
 	flex-direction:column;
 	width:35%;
 	height:fit-content;
-	background-color: rgb(98 124 98);
+	background:
+    ${theme.colors.background}
+  ;
+	  border-radius:10px;
 	margin:10px auto;
 	padding-bottom:20px;
 	opacity: 0;
@@ -27,6 +35,13 @@ position:fixed;
 	transform: translateX(0);
   }
  
+  
+.form-container:hover {
+	border-radius:10px;
+    opacity: 1;
+    border:1px solid ${theme.colors.tertiary};
+   
+  }
 
 form{
 	display:inline-block;
@@ -46,24 +61,24 @@ form{
 
 button{
 	width:90%;
-	background-color:#2b362b;
+	background-color: ${theme.colors.primary};
 	padding:18px;
 	border-radius:5px;
 	margin:20px 0px;
 	border:none;
-	color:#c9c9c9;
+	color:${theme.colors.secondary};
 	font-size:15px;
 	font-weight:bold;
 }
 
 a{
 	margin:0px 20px;
-	color:#2b362b;
+	color: ${theme.colors.link};
 	
 }
 
 .error-message{
-	color:#7a0303;
+	color: ${theme.colors.error};
 }
 `
 

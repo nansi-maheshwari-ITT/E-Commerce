@@ -1,4 +1,3 @@
-
 export interface cartItemType {
   name: string;
   category: string;
@@ -8,4 +7,6 @@ export interface cartItemType {
   imageurl: string;
   id: number;
   quantity: number;
+  inCart:boolean,
+  inWishlist:boolean;
 }

@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import theme from "../../Theme";
+
 const CartPageContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -49,20 +51,51 @@ const CartTotalPrice = styled(CartSummaryItem)`
 const CartEmptyMessage = styled.div`
   margin: auto;
 
-  height: 200px;
+  height: 300px;
 
   p {
     font-size: 25px;
     text-align: center;
   }
 `;
+const PlaceOrderButton = styled.button`
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid ${theme.colors.primary};
+  background-color: ${theme.colors.background};
+  color: ${theme.colors.primary};
+  font-weight: bold;
+
+  :hover {
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.background};
+  }
+`;
+
+const GoBackToCartButton = styled.button`
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid ${theme.colors.primary};
+  background-color: ${theme.colors.background};
+  color: ${theme.colors.primary};
+  font-weight: bold;
+
+  :hover {
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.background};
+  }
+`;
 
 export {
-	CartPageContainer,
-	CartItemsContainer,
-	CartSummaryContainer,
-	CartSummaryTitle,
-	CartSummaryItem,
-	CartTotalPrice,
-	CartEmptyMessage,
-  }
+  CartPageContainer,
+  CartItemsContainer,
+  CartSummaryContainer,
+  CartSummaryTitle,
+  CartSummaryItem,
+  CartTotalPrice,
+  CartEmptyMessage,
+  PlaceOrderButton,
+  GoBackToCartButton,
+};

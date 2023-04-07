@@ -1,5 +1,4 @@
 import { FooterContainer } from "./FooterStyle";
-
 import { categories } from "./Constant";
 
 const Footer = () => {

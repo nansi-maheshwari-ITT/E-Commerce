@@ -1,9 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { UserStatusInterface } from "../../Components/Navbar/NavbarInterface";
-import { db } from "../../Firebase";
-import { collection, doc, getDoc } from "firebase/firestore";
-import { infoDataType } from "../Home/HomeInterface";
+
 import {
   CartPageContainer,
   CartItemsContainer,
@@ -12,15 +9,20 @@ import {
   CartSummaryItem,
   CartTotalPrice,
   CartEmptyMessage,
-} from './CartScreenStyle';
-import { CartCard } from "../../Components/CartCard";
+  PlaceOrderButton,
+  GoBackToCartButton,
+} from "./CartScreenStyle";
+import { CartProductCard } from "../../Components/CartProductCard";
 import { CartItemState } from "../../Redux/Reducer/SetCartItems";
 import { saveCartItems } from "../../Redux/Actions";
-
+import Notification from "../../Components/Notification/Notification";
+import { PlacingOrderForm } from "../../Components/PlacingOrderForm";
 
 export const CartScreen = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: CartItemState) => state.cartItem);
+  const [orderInProgress, setOrderInProgress] = useState(false);
+  const [notification,setNotification]=useState("");
   const getTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -38,12 +40,20 @@ export const CartScreen = () => {
   }
   const finalPrice = getTotalPrice() + deliveryCharge - discountedPrice;
 
+
+  useEffect(()=>{
+    setTimeout(()=>{
+    setNotification("");
+    },3000)
+      })
+
   const removeItemFromCart = (productId: number) => {
     const updatedCartItems = cartItems.filter((item) => item.id !== productId);
     dispatch(saveCartItems(updatedCartItems));
+    setNotification("Product removed from cart");
   };
-  const increaseQuantity = (productQuantity: number, productId: number) => {
-    const newQuantity = productQuantity + 1;
+
+  const updateCartItemQuantity = (productId: number, newQuantity: number) => {
     const itemIndex = cartItems.findIndex((item) => item.id === productId);
     const updatedItem = { ...cartItems[itemIndex], quantity: newQuantity };
     const updatedCartItems = [
@@ -53,35 +63,54 @@ export const CartScreen = () => {
     ];
     dispatch(saveCartItems(updatedCartItems));
   };
-  const decreaseQuantity = (productQuantity: number, productId: number) => {
+
+  const increaseCartItemQuantity = (
+    productQuantity: number,
+    productId: number
+  ) => {
+    const newQuantity = productQuantity + 1;
+    updateCartItemQuantity(productId, newQuantity);
+    setNotification("Product's quantity increased");
+
+  };
+
+  const decreaseCartItemQuantity = (
+    productQuantity: number,
+    productId: number
+  ) => {
     const newQuantity = productQuantity - 1;
     if (newQuantity > 0) {
-      const itemIndex = cartItems.findIndex((item) => item.id === productId);
-      const updatedItem = { ...cartItems[itemIndex], quantity: newQuantity };
-      const updatedCartItems = [
-        ...cartItems.slice(0, itemIndex),
-        updatedItem,
-        ...cartItems.slice(itemIndex + 1),
-      ];
-      dispatch(saveCartItems(updatedCartItems));
+      updateCartItemQuantity(productId, newQuantity);
+    } else {
+      removeItemFromCart(productId);
     }
+    setNotification("Product's quantity decreased");
   };
 
   return (
-    <CartPageContainer>
+    <CartPageContainer data-testid="cart-page-container">
       {cartItems.length === 0 ? (
-        <CartEmptyMessage>
+        <CartEmptyMessage data-testid="empty-cart-message">
           <p>Your cart is empty</p>
         </CartEmptyMessage>
       ) : (
         <>
           <CartItemsContainer>
-            <CartCard
-              cardItem={cartItems}
-              removeItemFromCart={removeItemFromCart}
-              increaseQuantity={increaseQuantity}
-              decreaseQuantity={decreaseQuantity}
-            ></CartCard>
+            {!orderInProgress ? (
+              <CartProductCard
+                cardItem={cartItems}
+                removeItemFromCart={removeItemFromCart}
+                increaseCartItemQuantity={increaseCartItemQuantity}
+                decreaseCartItemQuantity={decreaseCartItemQuantity}
+              ></CartProductCard>
+            ) : (
+              <>
+                <PlacingOrderForm
+                  cartItems={cartItems}
+                  finalPrice={finalPrice}
+                ></PlacingOrderForm>
+              </>
+            )}
           </CartItemsContainer>
           <CartSummaryContainer>
             <CartSummaryTitle>Cart Summary</CartSummaryTitle>
@@ -105,9 +134,27 @@ export const CartScreen = () => {
               <div>Total Price</div>
               <div>₹{finalPrice}</div>
             </CartTotalPrice>
+            {!orderInProgress ? (
+              <PlaceOrderButton
+                onClick={() => {
+                  setOrderInProgress(true);
+                }}
+              >
+                Place Order
+              </PlaceOrderButton>
+            ) : (
+              <GoBackToCartButton
+                onClick={() => {
+                  setOrderInProgress(false);
+                }}
+              >
+                Go Back To Cart
+              </GoBackToCartButton>
+            )}
           </CartSummaryContainer>
         </>
       )}
+      {notification && <Notification text={notification}></Notification>}
     </CartPageContainer>
   );
 };

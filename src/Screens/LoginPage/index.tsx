@@ -5,11 +5,12 @@ import { AuthButton } from "../../Components/Atoms/AuthButton";
 import { useState, useEffect } from "react";
 import { LogInFormInterface } from "./LogInFormInterface";
 import { useDispatch } from "react-redux";
-import { saveCartItems, saveWishlistItems } from "../../Redux/Actions";
-import { db, auth } from "../../Firebase";
+import { auth } from "../../Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { signInUser } from "../../Redux/Actions";
-import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
+import { signInUser, User } from "../../Redux/Actions";
+import { UserStatusInterface } from "../../Components/Navbar/NavbarInterface";
+import Notification from "../../Components/Notification/Notification";
+import { loginToAccount } from "../../Services/Services";
 
 export const LoginPage = () => {
   const [active, setActive] = useState(false);
@@ -49,24 +50,10 @@ export const LoginPage = () => {
 
   const handleFormDataChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-
     setFormData((oldFormData) => ({
       ...oldFormData,
       [name]: value,
     }));
-  };
-
-  const fetchUsersProductData = () => {
-    if (formData.email) {
-      const userDocRef = doc(collection(db, "users"), formData.email);
-      getDoc(userDocRef).then((docSnapshot) => {
-        if (docSnapshot.exists()) {
-          const data = docSnapshot.data();
-          dispatch(saveCartItems(data.cartItems));
-          dispatch(saveWishlistItems(data.wishlistItems));
-        }
-      });
-    }
   };
 
   const handleFormDataSubmit = async (
@@ -76,31 +63,28 @@ export const LoginPage = () => {
     if (!formData.email || !formData.password) {
       setErrorMessage("Please fill all the fields");
     } else {
-      try {
-        const { user } = await signInWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password
-        );
-        console.log(user);
-        setErrorMessage("Logged in successfully");
-        localStorage.setItem("email", formData.email);
-        dispatch(
-          signInUser({
-            userName: user.displayName,
-            emailId: user.email,
-            isLoggedIn: true,
-          })
-        );
-        fetchUsersProductData();
+      const user = await loginToAccount(formData, setErrorMessage);
+      if (user) {
+        if (user.displayName && user.email) {
+          saveUserInfoInRedux(user.email, user.displayName);
+        }
         setTimeout(() => {
           navigate("/");
         }, 2000);
-      } catch (error: any) {
-        console.error(error.message);
-        setErrorMessage(error.message);
       }
     }
+  };
+
+  const saveUserInfoInRedux = (email: string, displayName: string) => {
+    localStorage.setItem("email", email);
+    localStorage.setItem("userName", displayName);
+    dispatch(
+      signInUser({
+        userName: displayName,
+        emailId: email,
+        isLoggedIn: true,
+      })
+    );
   };
 
   return (
@@ -121,6 +105,7 @@ export const LoginPage = () => {
             />
           ))}
           <AuthButton text="Log in"></AuthButton>
+          {errorMessage && <Notification text={errorMessage}></Notification>}
         </form>
         <p className="error-message">{errorMessage}</p>
         <p>

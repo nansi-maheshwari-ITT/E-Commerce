@@ -1,3 +1,3 @@
-export interface AuthButtonPropsType{
-	text:string;
+export interface AuthButtonPropsType {
+  text: string;
 }

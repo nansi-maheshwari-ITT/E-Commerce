@@ -6,6 +6,8 @@ export interface infoDataType {
 	rating: number;
 	imageurl: string;
 	id: number;
+	inCart:boolean,
+	inWishlist:boolean;
   }
   export interface ProductDetailType {
 	productDetails: infoDataType[];
