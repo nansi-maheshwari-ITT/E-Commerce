@@ -23,6 +23,10 @@ const FieldGroup = styled.div`
   flex-direction: column;
   width: 45%;
   margin: 10px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const Label = styled.label`
@@ -79,6 +83,10 @@ const Button = styled.button`
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
   }
 `;
 

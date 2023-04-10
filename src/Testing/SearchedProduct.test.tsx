@@ -21,17 +21,26 @@ describe("SearchedProduct", () => {
     );
   });
 
-  test("renders search results correctly", async () => {
-
-    const mockSearchResults = [
-      { id: 1, name: "Product 1" },
-      { id: 2, name: "Product 2" },
+  test("renders empty cart message when no matching products", () => {
+    const productDetail = [
+      { id: 1, name: "Product 1", price: 10 },
+      { id: 2, name: "Product 2", price: 20 },
     ];
-    store.dispatch({ type: "SET_SEARCH_RESULTS", payload: mockSearchResults });
-    const productElements = screen.getAllByTestId("productContainer");
+    const searchedProduct = "Product 3";
+    store.dispatch({ type: "SET_PRODUCT_DETAILS", payload: productDetail });
+    const cartEmptyMessage = screen.getByTestId("cartEmptyMessage");
+    expect(cartEmptyMessage).toBeInTheDocument();
+  });
 
-    await waitFor(() => { 
-      expect(productElements).toHaveLength(2);
-    });
+  test("renders product container when there are matching products", async () => {
+    const productDetail = [
+      { id: 1, name: "Product 1", price: 10 },
+      { id: 2, name: "Product 2", price: 20 },
+    ];
+    const searchedProduct = "Product 1";
+    store.dispatch({ type: "SET_PRODUCT_DETAILS", payload: productDetail });
+    await waitFor(() => screen.getByTestId("productContainer"));
+    const productContainer = screen.getByTestId("productContainer");
+    expect(productContainer).toBeInTheDocument();
   });
 });

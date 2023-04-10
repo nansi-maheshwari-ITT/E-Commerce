@@ -18,7 +18,7 @@ import {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
-  
+
   const generateRandomReviews = (): number => {
     return Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
   };

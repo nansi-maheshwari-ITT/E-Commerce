@@ -10,6 +10,10 @@ const CartPageContainer = styled.div`
   border-radius: 5px;
   padding: 20px;
   font-size: 16px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const CartItemsContainer = styled.div`
@@ -27,6 +31,10 @@ const CartSummaryContainer = styled.div`
   background-color: white;
   border-radius: 5px;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    flex: 1;
+  }
 `;
 
 const CartSummaryTitle = styled.h3`

@@ -14,6 +14,10 @@ const Card = styled.div`
   &:hover {
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
   }
+
+  @media (max-width: 768px) {
+    width: 220px;
+  }
 `;
 
 const Image = styled.img`
@@ -24,6 +28,10 @@ const Image = styled.img`
   border-radius: 4px;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
+
+  @media (max-width: 768px) {
+    height: 150px;
+  }
 `;
 
 const Description = styled.p`

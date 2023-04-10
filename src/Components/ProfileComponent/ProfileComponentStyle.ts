@@ -28,12 +28,12 @@ const ProfileImage = styled(FontAwesomeIcon)`
 
 const DropdownLink = styled.a`
   display: block;
-  padding: 0px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
   text-decoration: none;
   font-size: 15px;
-
+  border-bottom: 1px solid grey;
   &:hover {
-    cursor:pointer;
+    cursor: pointer;
     color: black;
   }
 `;
@@ -50,7 +50,15 @@ const DropdownText = styled.p`
   font-size: 15px;
   padding-bottom: 10px;
   border-bottom: 1px solid grey;
+  margin: 0px;
+  margin-top: 7px;
 `;
 
-
-export {Dropdown,DropdownText,DropdownLink,Button ,ProfileIconContainer,ProfileImage};
+export {
+  Dropdown,
+  DropdownText,
+  DropdownLink,
+  Button,
+  ProfileIconContainer,
+  ProfileImage,
+};

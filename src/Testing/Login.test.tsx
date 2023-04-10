@@ -4,7 +4,7 @@ import { LoginPage } from "../Screens/LoginPage";
 import { BrowserRouter as Router } from "react-router-dom";
 import rootReducer from "../Redux/Reducer";
 import { Provider } from "react-redux";
-import { configureStore,Store } from "@reduxjs/toolkit";
+import { configureStore, Store } from "@reduxjs/toolkit";
 
 describe("LoginPage", () => {
   beforeEach(() => {
@@ -37,7 +37,6 @@ describe("LoginPage", () => {
 
     await waitFor(() => {
       expect(screen.getByText("Log in")).toBeInTheDocument();
-     
     });
   });
 });

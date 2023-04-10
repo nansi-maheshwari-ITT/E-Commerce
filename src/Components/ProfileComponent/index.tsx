@@ -32,28 +32,33 @@ const ProfileIcon = () => {
   const dispatch = useDispatch();
 
   const handleUserLogout = async () => {
-    if(emailId){
-      updateDataInFirebase(emailId,cartItems,wishlistItems);
+    if (emailId) {
+      updateDataInFirebase(emailId, cartItems, wishlistItems);
     }
     localStorage.removeItem("email");
     localStorage.removeItem("userName");
     dispatch(signOutUser());
     navigate("/");
-   setDropdownOpen(!dropdownOpen);
+    setDropdownOpen(!dropdownOpen);
   };
 
   return (
     <ProfileIconContainer>
       <Button>
-        <ProfileImage icon={faUser as IconProp} onClick={toggleDropdown} />
+        <ProfileImage
+          data-testid="profile-image"
+          icon={faUser as IconProp}
+          onClick={toggleDropdown}
+        />
       </Button>
 
       {dropdownOpen && (
-        <Dropdown>
+        <Dropdown data-testid="dropdown">
           {!emailId ? (
             <>
               <DropdownText>Hello User !</DropdownText>
               <DropdownLink
+                data-testid="login/signup"
                 onClick={() => {
                   navigate("/login");
                 }}
@@ -65,6 +70,20 @@ const ProfileIcon = () => {
             <>
               <DropdownText>Hello {userName} !</DropdownText>
               <DropdownLink onClick={handleUserLogout}>Logout</DropdownLink>
+              <DropdownLink
+                onClick={() => {
+                  navigate("/wishlist");
+                }}
+              >
+                Wishlist
+              </DropdownLink>
+              <DropdownLink
+                onClick={() => {
+                  navigate("/cart");
+                }}
+              >
+                Cart
+              </DropdownLink>
             </>
           )}
         </Dropdown>

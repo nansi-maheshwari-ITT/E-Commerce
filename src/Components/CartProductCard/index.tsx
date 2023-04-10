@@ -28,16 +28,21 @@ export const CartProductCard: React.FC<CartProductCardProps> = ({
             <CartItemQuantity>
               <CartItemQuantityButton
                 onClick={() => decreaseCartItemQuantity(item.quantity, item.id)}
+                data-testid={`decrementButton-${item.id}`}
               >
                 -
               </CartItemQuantityButton>
               {item.quantity}
               <CartItemQuantityButton
                 onClick={() => increaseCartItemQuantity(item.quantity, item.id)}
+                data-testid={`incrementButton-${item.id}`}
               >
                 +
               </CartItemQuantityButton>
-              <CartItemRemoveButton onClick={() => removeItemFromCart(item.id)}>
+              <CartItemRemoveButton
+                onClick={() => removeItemFromCart(item.id)}
+                data-testid={`removeButton-${item.id}`}
+              >
                 Remove
               </CartItemRemoveButton>
             </CartItemQuantity>

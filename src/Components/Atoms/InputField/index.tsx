@@ -10,10 +10,10 @@ export const InputField: React.FC<InputFieldPropsType> = ({
   handleFormDataChange,
 }) => {
   return (
-    <InputDiv >
+    <InputDiv>
       <label>{label}</label>
       <Input
-      data-testid={name}
+        data-testid={name}
         type={type}
         id={id}
         placeholder={placeholder}

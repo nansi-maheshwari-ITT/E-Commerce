@@ -24,7 +24,7 @@ export const Home = () => {
 
   return (
     <div>
-      <CategorySelectionContainer 
+      <CategorySelectionContainer
         applyFilter={applyCategoryFilter}
       ></CategorySelectionContainer>
       {!isDataLoading && (

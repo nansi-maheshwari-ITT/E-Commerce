@@ -15,10 +15,10 @@ export const ProductScreen = () => {
   );
 
   useEffect(() => {
-      const filteredProducts = productDetail.filter(
-        (product) => product.category === value
-      );
-      setFilteredProductDetail(filteredProducts);
+    const filteredProducts = productDetail.filter(
+      (product) => product.category === value
+    );
+    setFilteredProductDetail(filteredProducts);
   }, []);
 
   return (

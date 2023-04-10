@@ -17,12 +17,14 @@ export const SearchedProduct = () => {
   return (
     <>
       {filteredProducts.length > 0 ? (
-        <ProductContainer productDetails={filteredProducts} searchingProduct={product}></ProductContainer>
+        <ProductContainer
+          productDetails={filteredProducts}
+          searchingProduct={product}
+        ></ProductContainer>
       ) : (
-		<CartEmptyMessage>
-         <h1>No products matched your search {product}</h1>
+        <CartEmptyMessage data-testid="cartEmptyMessage">
+          <h1>No products matched your search {product}</h1>
         </CartEmptyMessage>
-       
       )}
     </>
   );

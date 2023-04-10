@@ -5,9 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { SignUpFormInterface } from "./SignUpFormInterface";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { db, auth } from "../../Firebase";
+import { db, auth } from "../../Configuration/Configuration";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import Notification from "../../Components/Notification/Notification";
+import Notification from "../../Components/Notification";
 import { createAccount, createUserCollection } from "../../Services/Services";
 
 export const SignupPage = () => {
@@ -88,7 +88,7 @@ export const SignupPage = () => {
           {errorMessage && <Notification text={errorMessage}></Notification>}
         </form>
 
-        <p>
+        <p className="login-link">
           Already a member?
           <Link to="/login">Log in here</Link>
         </p>

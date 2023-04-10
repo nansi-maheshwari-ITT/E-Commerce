@@ -15,6 +15,13 @@ const NavBar = styled.nav`
     justify-content: space-between;
     align-items: center;
   }
+
+  .cart-icon,
+  .wishlist-icon {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
 `;
 
 const NavItems = styled.div`
@@ -29,6 +36,10 @@ const Logo = styled.h1`
   font-weight: bold;
   font-family: "Playfair Display", serif;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const SearchBar = styled.div`
@@ -45,6 +56,16 @@ const SearchBar = styled.div`
     font-size: 22px;
     margin-left: 8px;
   }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+
+    svg {
+      font-size: 15px;
+      margin-left: 5px;
+    }
+  }
 `;
 
 const SearchInput = styled.input`
@@ -53,6 +74,9 @@ const SearchInput = styled.input`
   width: 100%;
   padding: 1rem 1rem;
   background-color: rgb(255 255 255 / 39%);
+  @media (max-width: 768px) {
+    padding: 0.1rem;
+  }
 `;
 const Button = styled.button`
   background-color: transparent;

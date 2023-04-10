@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -15,14 +15,14 @@ import {
 import { CartProductCard } from "../../Components/CartProductCard";
 import { CartItemState } from "../../Redux/Reducer/SetCartItems";
 import { saveCartItems } from "../../Redux/Actions";
-import Notification from "../../Components/Notification/Notification";
+import Notification from "../../Components/Notification";
 import { PlacingOrderForm } from "../../Components/PlacingOrderForm";
 
 export const CartScreen = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: CartItemState) => state.cartItem);
   const [orderInProgress, setOrderInProgress] = useState(false);
-  const [notification,setNotification]=useState("");
+  const [notification, setNotification] = useState("");
   const getTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -40,12 +40,11 @@ export const CartScreen = () => {
   }
   const finalPrice = getTotalPrice() + deliveryCharge - discountedPrice;
 
-
-  useEffect(()=>{
-    setTimeout(()=>{
-    setNotification("");
-    },3000)
-      })
+  useEffect(() => {
+    setTimeout(() => {
+      setNotification("");
+    }, 3000);
+  });
 
   const removeItemFromCart = (productId: number) => {
     const updatedCartItems = cartItems.filter((item) => item.id !== productId);
@@ -71,7 +70,6 @@ export const CartScreen = () => {
     const newQuantity = productQuantity + 1;
     updateCartItemQuantity(productId, newQuantity);
     setNotification("Product's quantity increased");
-
   };
 
   const decreaseCartItemQuantity = (

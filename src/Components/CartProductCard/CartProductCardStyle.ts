@@ -4,11 +4,10 @@ const CartItem = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  padding:10px;
+  padding: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.2s ease-in-out;
- 
 
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -20,6 +19,11 @@ const CartItemImage = styled.img`
   height: 100px;
   object-fit: cover;
   margin-right: 20px;
+
+  @media (max-width: 768px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 const CartItemDetails = styled.div`
@@ -40,7 +44,7 @@ const CartItemPrice = styled.div`
 const CartItemQuantity = styled.div`
   display: flex;
   align-items: center;
-  margin-top:15px;
+  margin-top: 15px;
 `;
 
 const CartItemQuantityButton = styled.button`
@@ -65,10 +69,18 @@ const CartItemRemoveButton = styled.button`
   margin-left: auto;
   cursor: pointer;
 
-
   &:hover {
     background-color: #d32f2f;
   }
 `;
 
-export {CartItem,CartItemQuantity,CartItemName,CartItemRemoveButton,CartItemDetails,CartItemQuantityButton,CartItemImage,CartItemPrice}
+export {
+  CartItem,
+  CartItemQuantity,
+  CartItemName,
+  CartItemRemoveButton,
+  CartItemDetails,
+  CartItemQuantityButton,
+  CartItemImage,
+  CartItemPrice,
+};

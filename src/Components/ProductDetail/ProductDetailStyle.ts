@@ -7,6 +7,10 @@ const DetailedProductWrapper = styled.div`
   width: 80%;
   justify-content: space-around;
   margin: 30px auto;
+
+  @media (max-width: 768px) {
+    width: 95%;
+  }
 `;
 
 const ProductImage = styled.img`
@@ -14,11 +18,24 @@ const ProductImage = styled.img`
   margin-right: 20px;
   object-fit: cover;
   border-radius: 5px;
+
+  @media (max-width: 768px) {
+    height: 320px;
+    width: 150px;
+    object-fit: none;
+  }
 `;
 
 const ProductInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+    p {
+      margin: 5px 0px;
+    }
+  }
 
   .product-offer {
     color: green;
@@ -41,11 +58,20 @@ const ProductName = styled.h2`
   font-size: 24px;
   font-weight: bold;
   margin: 2px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin: 0px;
+  }
 `;
 
 const ProductPrice = styled.p`
   font-size: 18px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
 `;
 
 const WishlistButton = styled.button`
@@ -69,6 +95,11 @@ const WishlistButton = styled.button`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+    padding: 5px;
+  }
 `;
 
 const AddToCartButton = styled.button`
@@ -91,6 +122,11 @@ const AddToCartButton = styled.button`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+    padding: 5px;
+  }
 `;
 
 const OfferWrapper = styled.div`
@@ -100,8 +136,15 @@ const OfferWrapper = styled.div`
   font-size: 14px;
   line-height: 20px;
 
+  @media (max-width: 768px) {
+    font-size: 10px;
+    margin: 5px 0px;
+  }
+
   img {
     margin-right: 8px;
+    width: 18px;
+    height: 18px;
   }
 
   a {
@@ -119,6 +162,11 @@ const OfferWrapper = styled.div`
     display: flex;
     align-items: center;
     margin: 5px 0px;
+    flex-wrap: wrap;
+    @media (max-width: 768px) {
+      font-size: 10px;
+      margin: 1px 0px;
+    }
   }
 
   .u8dYXW {
@@ -129,6 +177,14 @@ const OfferWrapper = styled.div`
   .fGhUR2 {
     color: #2874f0;
     cursor: pointer;
+  }
+
+  span {
+    white-space: pre-wrap;
+
+    @media (max-width: 768px) {
+      line-height: 1.2;
+    }
   }
 `;
 
@@ -146,6 +202,12 @@ const RatingButton = styled.button`
 
   svg {
     margin: 2px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 8px;
+    padding: 2px;
+    width: 40px;
   }
 `;
 

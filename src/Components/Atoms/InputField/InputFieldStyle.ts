@@ -9,6 +9,11 @@ const Input = styled.input`
   margin: 5px 0px;
   border: none;
   width: 80%;
+
+  @media (max-width: 768px) {
+    padding: 14px;
+    font-size: 12px;
+  }
 `;
 
 const InputDiv = styled.div`

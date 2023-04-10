@@ -15,7 +15,6 @@ import {
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { useNavigate } from "react-router-dom";
-import {useDispatch } from "react-redux";
 import { useState } from "react";
 import ProfileIcon from "../ProfileComponent";
 
@@ -28,6 +27,7 @@ export const Navbar = () => {
   };
 
   const handleSubmit = () => {
+    setSearchQuery("");
     navigate(`/search/${searchQuery}`);
   };
 
@@ -44,6 +44,7 @@ export const Navbar = () => {
         <SearchBar>
           <SearchInput
             placeholder="Search..."
+            value={searchQuery}
             onChange={(event) => {
               handleChange(event);
             }}
@@ -53,13 +54,16 @@ export const Navbar = () => {
             onClick={() => {
               handleSubmit();
             }}
+            data-testid="search-icon"
           />
         </SearchBar>
         <div>
           <Button
             onClick={() => {
-              !emailId ? navigate(`/login`) : navigate("/wishlist");
+              !emailId ? navigate("/login") : navigate("/wishlist");
             }}
+            data-testid="wishlist-icon"
+            className="wishlist-icon"
           >
             <FontAwesomeIcon icon={faHeart as IconProp}></FontAwesomeIcon>
           </Button>
@@ -67,10 +71,12 @@ export const Navbar = () => {
             onClick={() => {
               !emailId ? navigate("/login") : navigate("/cart");
             }}
+            data-testid="cart-icon"
+            className="cart-icon"
           >
             <FontAwesomeIcon icon={faShoppingCart as IconProp} />
           </Button>
-            <Button>
+          <Button>
             <ProfileIcon></ProfileIcon>
           </Button>
         </div>

@@ -10,14 +10,15 @@ import {
   ProductDescription,
   ProductImage,
   ProductPrice,
+  WishlistHeading,
 } from "./WishlistStyle";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CartItemState } from "../../Redux/Reducer/SetCartItems";
 import { saveCartItems, saveWishlistItems } from "../../Redux/Actions";
 import { infoDataType } from "../Home/HomeInterface";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import Notification from "../../Components/Notification/Notification";
+import Notification from "../../Components/Notification";
 
 export const Wishlist = () => {
   const dispatch = useDispatch();
@@ -25,13 +26,13 @@ export const Wishlist = () => {
     (state: WishlistState) => state.wishlistItems
   );
   const cartItems = useSelector((state: CartItemState) => state.cartItem);
-  const [notification,setNotification]=useState("");
+  const [notification, setNotification] = useState("");
 
-  useEffect(()=>{
-setTimeout(()=>{
-setNotification("");
-},3000)
-  })
+  useEffect(() => {
+    setTimeout(() => {
+      setNotification("");
+    }, 3000);
+  });
 
   const addItemToCart = (product: infoDataType) => {
     const cartItemIndex = findCartItemIndex(product);
@@ -49,10 +50,9 @@ setNotification("");
         ...cartItems.slice(cartItemIndex + 1),
       ];
       dispatch(saveCartItems(updatedCartItems));
-      removeItemFromWishlist(product.id);
     }
-setNotification("Product Added To Cart")
-
+    removeItemFromWishlist(product.id);
+    setNotification("Product Added To Cart");
   };
 
   const findCartItemIndex = (product: infoDataType) => {
@@ -64,16 +64,16 @@ setNotification("Product Added To Cart")
       (item) => item.id !== productId
     );
     dispatch(saveWishlistItems(updatedWishlist));
-    setNotification("Product removed from wishlist")
+    setNotification("Product removed from wishlist");
   };
 
   return (
     <div>
       {notification && <Notification text={notification}></Notification>}
-      <h1>My Wishlist ({wishlistItems.length})</h1>
+      <WishlistHeading>My Wishlist ({wishlistItems.length})</WishlistHeading>
       <CardDiv>
         {wishlistItems.length === 0 ? (
-          <CartEmptyMessage>
+          <CartEmptyMessage data-testid="wishlistEmptyMessage">
             <p>Your wishlist is empty</p>
           </CartEmptyMessage>
         ) : (
@@ -82,6 +82,7 @@ setNotification("Product Added To Cart")
               <CardContainer key={product.id}>
                 <IconContainer
                   onClick={() => removeItemFromWishlist(product.id)}
+                  data-testid={`removeButton-${product.id}`}
                 >
                   <CloseIcon icon={faTimes as IconProp} />
                 </IconContainer>
@@ -92,6 +93,7 @@ setNotification("Product Added To Cart")
                   onClick={() => {
                     addItemToCart(product);
                   }}
+                  data-testid={`addToCartButton-${product.id}`}
                 >
                   Add to cart
                 </AddToCartButton>

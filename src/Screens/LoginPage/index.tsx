@@ -5,11 +5,11 @@ import { AuthButton } from "../../Components/Atoms/AuthButton";
 import { useState, useEffect } from "react";
 import { LogInFormInterface } from "./LogInFormInterface";
 import { useDispatch } from "react-redux";
-import { auth } from "../../Firebase";
+import { auth } from "../../Configuration/Configuration";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { signInUser, User } from "../../Redux/Actions";
 import { UserStatusInterface } from "../../Components/Navbar/NavbarInterface";
-import Notification from "../../Components/Notification/Notification";
+import Notification from "../../Components/Notification";
 import { loginToAccount } from "../../Services/Services";
 
 export const LoginPage = () => {
@@ -108,7 +108,7 @@ export const LoginPage = () => {
           {errorMessage && <Notification text={errorMessage}></Notification>}
         </form>
         <p className="error-message">{errorMessage}</p>
-        <p>
+        <p className="signup-link">
           Don't have an account?
           <Link to="/signup">Sign Up here</Link>
         </p>

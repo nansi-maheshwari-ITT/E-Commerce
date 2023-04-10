@@ -10,6 +10,12 @@ const CategorySelectionContainerWrapper = styled.div`
   color: ${theme.colors.text};
   font-family: ${theme.fonts.heading};
 
+  @media (max-width: 768px) {
+    height: 170px;
+    width: 100%;
+    font-size: 14px;
+  }
+
   div {
     display: flex;
     flex-direction: column;
@@ -28,6 +34,11 @@ const CategorySelectionContainerWrapper = styled.div`
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 768px) {
+      height: 60px;
+      width: 60px;
+    }
   }
 
   img {

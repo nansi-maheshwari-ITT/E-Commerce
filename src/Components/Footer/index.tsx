@@ -2,7 +2,6 @@ import { FooterContainer } from "./FooterStyle";
 import { categories } from "./Constant";
 
 const Footer = () => {
-
   return (
     <FooterContainer>
       {categories.map((category, index) => (

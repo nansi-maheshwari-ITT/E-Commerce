@@ -13,7 +13,7 @@ const Container = styled.div`
 const CardDiv = styled.div`
   text-align: center;
   padding: 20px;
-  margin-top:2px;
+  margin-top: 2px;
   background: ${theme.colors.secondary};
   h1 {
     margin-bottom: 4%;
@@ -22,26 +22,24 @@ const CardDiv = styled.div`
 `;
 
 const CardWrapper = styled.div`
-display:flex;
-justify-content:space-between;
-
+  display: flex;
+  justify-content: space-between;
 `;
 
 const FilterDiv = styled.div`
-margin: 20px auto;
-display:flex;
-justify-content:space-between;
-width:10%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  width: 10%;
 
-
-.close-icon{
-	height:25px;
-	cursor:pointer;
-}
+  .close-icon {
+    height: 25px;
+    cursor: pointer;
+  }
 `;
 
 const SidebarButton = styled.button`
-  background-color:grey;
+  background-color: grey;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -51,7 +49,12 @@ const SidebarButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  height:25px;
+  height: 25px;
+
+  @media (max-width: 768px) {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
 `;
 
 const FilterIcon = styled(FontAwesomeIcon)`
@@ -74,6 +77,9 @@ const SidebarWrapper = styled.div`
     opacity: 1;
     visibility: visible;
   }
+
+  @media (max-width: 768px) {
+  }
 `;
 
 const SidebarContent = styled.div`
@@ -92,6 +98,10 @@ const SidebarTitle = styled.h3`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const SidebarCloseButton = styled.button`
@@ -103,6 +113,10 @@ const SidebarCloseButton = styled.button`
   border: none;
   font-size: 24px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const PriceSlider = styled.input`
@@ -139,4 +153,20 @@ const FilterLabel = styled.label`
   font-weight: bold;
   margin-bottom: 8px;
 `;
-export { CardDiv, Container, CardWrapper, FilterDiv,SidebarButton,SidebarCloseButton,SidebarContent,FilterContainer,FilterIcon,FilterLabel,ApplyFiltersButton,SidebarWrapper,RatingSlider,PriceSlider,SidebarTitle };
+export {
+  CardDiv,
+  Container,
+  CardWrapper,
+  FilterDiv,
+  SidebarButton,
+  SidebarCloseButton,
+  SidebarContent,
+  FilterContainer,
+  FilterIcon,
+  FilterLabel,
+  ApplyFiltersButton,
+  SidebarWrapper,
+  RatingSlider,
+  PriceSlider,
+  SidebarTitle,
+};

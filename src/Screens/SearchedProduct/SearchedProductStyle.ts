@@ -8,4 +8,4 @@ const CartEmptyMessage = styled.div`
   }
 `;
 
-export {CartEmptyMessage}
+export { CartEmptyMessage };

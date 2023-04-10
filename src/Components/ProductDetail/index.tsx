@@ -24,11 +24,8 @@ import { useDispatch } from "react-redux";
 import { CartItemState } from "../../Redux/Reducer/SetCartItems";
 import { WishlistState } from "../../Redux/Reducer/SetWishlistItems";
 import { useState, useEffect } from "react";
-import Notification from "../Notification/Notification";
-import {
-  saveCartItems,
-  saveWishlistItems,
-} from "../../Redux/Actions";
+import Notification from "../Notification";
+import { saveCartItems, saveWishlistItems } from "../../Redux/Actions";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -45,49 +42,52 @@ const ProductDetails = () => {
   const emailId = localStorage.getItem("email");
   const [inCart, setInCart] = useState(false);
   const [inWishlist, setInWishlist] = useState(false);
-  const [notification,setNotification]=useState("");
+  const [notification, setNotification] = useState("");
 
   useEffect(() => {
-   itemIsInCart();
-   itemIsInWishlist();
-   setTimeout(()=>{
-    setNotification("");
-    },2000)
+    itemIsInCart();
+    itemIsInWishlist();
+    setTimeout(() => {
+      setNotification("");
+    }, 2000);
   }, []);
 
-  const itemIsInCart=()=>{
+  const itemIsInCart = () => {
     const cartItemIndex = cartItems?.findIndex(
       (item: infoDataType) => item.id === productId
     );
     if (cartItemIndex != -1) {
       setInCart(true);
     }
-  }
+  };
 
-  const itemIsInWishlist=()=>{
+  const itemIsInWishlist = () => {
     const wishlistItemIndex = wishlistItems?.findIndex(
       (item: infoDataType) => item.id === productId
     );
     if (wishlistItemIndex != -1) {
       setInWishlist(true);
     }
-  }
+  };
 
-  const itemExists=(item:infoDataType[]|cartItemType[],product: infoDataType)=>{
+  const itemExists = (
+    item: infoDataType[] | cartItemType[],
+    product: infoDataType
+  ) => {
     const itemIndex = item?.findIndex(
       (item: infoDataType) => item.id === product.id
     );
-    if (itemIndex === -1){
+    if (itemIndex === -1) {
       return false;
     }
     return true;
-  }
+  };
 
   const addToCart = (product: infoDataType) => {
     if (!emailId) {
       navigate("/login");
     } else {
-      if (!itemExists(cartItems,product)) {
+      if (!itemExists(cartItems, product)) {
         const updatedCartItems = [...cartItems, { ...product, quantity: 1 }];
         dispatch(saveCartItems(updatedCartItems));
         setInCart(true);
@@ -100,7 +100,7 @@ const ProductDetails = () => {
     if (!emailId) {
       navigate("/login");
     } else {
-      if (!itemExists(wishlistItems,product)) {
+      if (!itemExists(wishlistItems, product)) {
         const updatedwishlistItem = [...wishlistItems, { ...product }];
         dispatch(saveWishlistItems(updatedwishlistItem));
         setInWishlist(true);
@@ -114,7 +114,9 @@ const ProductDetails = () => {
       {notification && <Notification text={notification}></Notification>}
       <ProductImage src={productDetail?.imageurl} alt="product image" />
       <ProductInfoWrapper>
-        <ProductName>{productDetail?.description}</ProductName>
+        <ProductName data-testid="product-name">
+          {productDetail?.description}
+        </ProductName>
         <RatingButton>
           {productDetail?.rating}
           <FontAwesomeIcon icon={faStar as IconProp} />
@@ -146,15 +148,14 @@ const ProductDetails = () => {
           </WishlistButton>
         </div>
         <OfferWrapper>
-          {[...Array(4)].map((_, index) => (
+          {[...Array(3)].map((_, index) => (
             <li key={index}>
               <img src={OfferIcon} width="18" height="18" />
               <span className="u8dYXW">Combo Offer</span>
               <span>Buy 3-4 items save 5%; Buy 5 or more save 7%</span>
               <a>See all products</a>
-              <div>
-                <span>T&amp;C</span>
-              </div>
+
+              <span>T&amp;C</span>
             </li>
           ))}
         </OfferWrapper>

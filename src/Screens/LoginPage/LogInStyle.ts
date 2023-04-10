@@ -18,22 +18,23 @@ const LogInFormContainer = styled.div`
     flex-direction: column;
     width: 35%;
     height: 75%;
-    background:
-    ${theme.colors.background}
-  ;
+    background: ${theme.colors.background};
     margin: 20px auto;
-    border-radius:10px;
+    border-radius: 10px;
     padding-bottom: 20px;
     opacity: 0.9;
     transition: all 0.3s ease-in-out;
+
+    @media (max-width: 768px) {
+      width: 65%;
+      height: 68%;
+    }
   }
 
   .form-container:hover {
-
     opacity: 1;
-    border:1px solid ${theme.colors.tertiary};
-    border-radius:10px;
-   
+    border: 1px solid ${theme.colors.tertiary};
+    border-radius: 10px;
   }
 
   .form-container.active {
@@ -58,6 +59,11 @@ const LogInFormContainer = styled.div`
     font-size: 28px;
     font-weight: bold;
     font-family: ${theme.fonts.heading};
+
+    @media (max-width: 768px) {
+      font-size: 20px;
+      padding: 18px;
+    }
   }
 
   button {
@@ -67,14 +73,23 @@ const LogInFormContainer = styled.div`
     border-radius: 5px;
     margin: 20px 0px;
     border: none;
-    color:${theme.colors.secondary};
+    color: ${theme.colors.secondary};
     font-size: 15px;
     font-weight: bold;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+      padding: 12px;
+    }
   }
 
   a {
     margin: 0px 20px;
     color: ${theme.colors.link};
+  }
+
+  .signup-link {
+    margin: 0px 10px;
   }
 `;
 

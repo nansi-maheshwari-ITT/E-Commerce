@@ -1,18 +1,33 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../Firebase";
+import { db } from "../../Configuration/Configuration";
 import { useDispatch } from "react-redux";
 import { doc, collection, updateDoc, arrayUnion } from "firebase/firestore";
 import { saveCartItems } from "../../Redux/Actions";
-import {Button,Message,PaymentOption,RadioButton,Input,FormContainer,FieldsContainer,FieldGroup,Label} from "./PlacingOrderFormStyle";
-import { FormFields,Field,PlacingOrderProps } from "./PlacingOrderFormInterface";
+import {
+  Button,
+  Message,
+  PaymentOption,
+  RadioButton,
+  Input,
+  FormContainer,
+  FieldsContainer,
+  FieldGroup,
+  Label,
+} from "./PlacingOrderFormStyle";
+import {
+  FormFields,
+  Field,
+  PlacingOrderProps,
+} from "./PlacingOrderFormInterface";
 import { inputFields } from "./Constant";
 import cartItem from "../../Redux/Reducer/SetCartItems";
 import { updateOrderHistoryInFirebase } from "../../Services/Services";
 
 export const PlacingOrderForm: React.FC<PlacingOrderProps> = ({
-finalPrice,cartItems
+  finalPrice,
+  cartItems,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [formFields, setFormFields] = useState<FormFields>({
@@ -27,7 +42,6 @@ finalPrice,cartItems
   const email = localStorage.getItem("email");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   const handleFieldChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -56,24 +70,23 @@ finalPrice,cartItems
       setErrorMessage("Please fill in all fields.");
       return;
     } else {
-		if(email){
-			updateOrderHistoryInFirebase(email,cartItems,formFields,finalPrice);
-			dispatch(saveCartItems([]));
-		}
-		  }
-      navigate(`/orderplaced`);
+      if (email) {
+        updateOrderHistoryInFirebase(email, cartItems, formFields, finalPrice);
+        dispatch(saveCartItems([]));
+      }
     }
+    navigate(`/orderplaced`);
+  };
 
-
- 
   return (
     <FormContainer>
       <form onSubmit={handleConfirmOrder}>
         <FieldsContainer>
           {inputFields.map((field) => (
             <FieldGroup key={field.name}>
-              <Label>{field.label}</Label>
+              <Label htmlFor={field.name}>{field.label}</Label>
               <Input
+                id={field.name}
                 type={field.type}
                 name={field.name}
                 value={formFields[field.name]}
@@ -83,9 +96,10 @@ finalPrice,cartItems
           ))}
         </FieldsContainer>
         <FieldGroup>
-          <Label>Payment Option</Label>
+          <Label htmlFor="Payment Option">Payment Option</Label>
           <PaymentOption>
             <RadioButton
+              id="Payment Option"
               type="radio"
               name="paymentOption"
               value="cod"
@@ -99,11 +113,7 @@ finalPrice,cartItems
           )}
         </FieldGroup>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <Button
-          type="submit"
-        >
-          Confirm Order
-        </Button>
+        <Button type="submit">Confirm Order</Button>
       </form>
     </FormContainer>
   );

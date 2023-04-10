@@ -9,15 +9,12 @@ import ProductDetails from "../ProductDetail";
 import Footer from "../Footer";
 import { Navbar } from "../Navbar";
 import { useEffect } from "react";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
-import { db } from "../../Firebase";
 import {
   saveCartItems,
   saveProductDetails,
   saveWishlistItems,
 } from "../../Redux/Actions";
 import { useDispatch } from "react-redux";
-import { infoDataType } from "../../Screens/Home/HomeInterface";
 import { OrderPlaced } from "../../Screens/OrderPlacedScreen";
 import { SearchedProduct } from "../../Screens/SearchedProduct";
 import { fetchProductData, fetchUsersData } from "../../Services/Services";
