@@ -133,13 +133,11 @@ export const updateDataInFirebase = async (
   const userDocRef = doc(collection(db, "users"), emailId);
 
   try {
-    console.log(wishlistItems);
     await updateDoc(userDocRef, {
       cartItems: cartItems,
       wishlistItems: wishlistItems,
     });
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

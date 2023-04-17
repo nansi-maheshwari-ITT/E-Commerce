@@ -36,7 +36,7 @@ export const OrderHistory = () => {
       }
     }
   };
-  console.log(orderHistory);
+
 
   useEffect(() => {
     fetchOrderHistory();

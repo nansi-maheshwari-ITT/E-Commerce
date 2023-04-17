@@ -22,7 +22,6 @@ import {
   PurchaseOrderProps,
 } from "./PurchaseOrderFormInterface";
 import { inputFields } from "./Constant";
-import cartItem from "../../Redux/Reducer/SetCartItems";
 import { updateOrderHistoryInFirebase } from "../../Services/Services";
 import Notification from "../Notification";
 
