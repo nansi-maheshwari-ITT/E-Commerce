@@ -12,6 +12,11 @@ const OrderPlacedWrapper = styled.div`
 p {
   font-size: 25px;
 }
+
+img{
+  width:150px;
+  height:150px;
+}
 button{
   margin-top:20px;
   padding:10px ;

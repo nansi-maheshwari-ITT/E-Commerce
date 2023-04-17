@@ -26,6 +26,15 @@ import { WishlistState } from "../../Redux/Reducer/SetWishlistItems";
 import { useState, useEffect } from "react";
 import Notification from "../Notification";
 import { saveCartItems, saveWishlistItems } from "../../Redux/Actions";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as faSolidHeart,
+  faCartShopping as faSolidCart,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  updateCartDataInFirebase,
+  updateWishlistDataInFirebase,
+} from "../../Services/Services";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -43,25 +52,16 @@ const ProductDetails = () => {
   const [inCart, setInCart] = useState(false);
   const [inWishlist, setInWishlist] = useState(false);
   const [notification, setNotification] = useState("");
+  const [itemQuantity, setItemQuantity] = useState<number>(1);
 
   useEffect(() => {
-    itemIsInCart();
-    itemIsInWishlist();
+    isItemInWishlist();
     setTimeout(() => {
       setNotification("");
     }, 2000);
   }, []);
 
-  const itemIsInCart = () => {
-    const cartItemIndex = cartItems?.findIndex(
-      (item: infoDataType) => item.id === productId
-    );
-    if (cartItemIndex != -1) {
-      setInCart(true);
-    }
-  };
-
-  const itemIsInWishlist = () => {
+  const isItemInWishlist = () => {
     const wishlistItemIndex = wishlistItems?.findIndex(
       (item: infoDataType) => item.id === productId
     );
@@ -78,35 +78,94 @@ const ProductDetails = () => {
       (item: infoDataType) => item.id === product.id
     );
     if (itemIndex === -1) {
-      return false;
+      return itemIndex;
     }
-    return true;
+    return itemIndex;
   };
 
   const addToCart = (product: infoDataType) => {
     if (!emailId) {
-      navigate("/login");
+      navigate("/loginOrSignup");
     } else {
-      if (!itemExists(cartItems, product)) {
-        const updatedCartItems = [...cartItems, { ...product, quantity: 1 }];
+      const itemIndex = itemExists(cartItems, product);
+      if (itemIndex == -1) {
+        const updatedCartItems = [
+          ...cartItems,
+          { ...product, quantity: itemQuantity },
+        ];
         dispatch(saveCartItems(updatedCartItems));
-        setInCart(true);
+        updateCartDataInFirebase(emailId, updatedCartItems);
         setNotification("Product added To Cart");
+      } else {
+        if (cartItems[itemIndex].quantity + itemQuantity <= 15) {
+          const updatedItem = {
+            ...cartItems[itemIndex],
+            quantity: cartItems[itemIndex].quantity + itemQuantity,
+          };
+          const updatedCartItems = [
+            ...cartItems.slice(0, itemIndex),
+            updatedItem,
+            ...cartItems.slice(itemIndex + 1),
+          ];
+          dispatch(saveCartItems(updatedCartItems));
+          updateCartDataInFirebase(emailId, updatedCartItems);
+          setNotification(" Added To cart");
+          setTimeout(() => {
+            setNotification("");
+          }, 2000);
+        } else {
+          setNotification("Reached Max quantity");
+          setTimeout(() => {
+            setNotification("");
+          }, 2000);
+        }
       }
     }
   };
 
   const addToWishlist = (product: infoDataType) => {
     if (!emailId) {
-      navigate("/login");
+      navigate("/loginOrSignup");
     } else {
-      if (!itemExists(wishlistItems, product)) {
-        const updatedwishlistItem = [...wishlistItems, { ...product }];
-        dispatch(saveWishlistItems(updatedwishlistItem));
-        setInWishlist(true);
-        setNotification("Product added To Wishlist");
+      {
+        inWishlist
+          ? removeItemFromWishlist(product)
+          : addItemInWishlist(product);
       }
     }
+  };
+
+  const removeItemFromWishlist = (product: infoDataType) => {
+    const updatedWishlist = wishlistItems.filter(
+      (item) => item.id !== product.id
+    );
+    dispatch(saveWishlistItems(updatedWishlist));
+    if (emailId) {
+      updateWishlistDataInFirebase(emailId, updatedWishlist);
+    }
+    setInWishlist(false);
+    setNotification("Removed From Wishlist");
+    setTimeout(() => {
+      setNotification("");
+    }, 2000);
+  };
+
+  const addItemInWishlist = (product: infoDataType) => {
+    const updatedwishlistItem = [...wishlistItems, { ...product }];
+    dispatch(saveWishlistItems(updatedwishlistItem));
+    if (emailId) {
+      updateWishlistDataInFirebase(emailId, updatedwishlistItem);
+    }
+    setInWishlist(true);
+    setNotification("Added To Wishlist");
+    setTimeout(() => {
+      setNotification("");
+    }, 2000);
+  };
+
+  const setQuantity = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const quantity = parseInt(event.target.value);
+    setItemQuantity(quantity);
   };
 
   return (
@@ -122,29 +181,42 @@ const ProductDetails = () => {
           <FontAwesomeIcon icon={faStar as IconProp} />
         </RatingButton>
         <p className="product-offer">30% off Only for today</p>
-        <ProductPrice>{`Price: ₹${productDetail?.price}`}</ProductPrice>
+        <ProductPrice>{`Price: Rs.${productDetail?.price}`}</ProductPrice>
         <p>Detailed description goes here...</p>
+        <div className="quantity-selection-bar">
+          <label htmlFor="quantity">Quantity:</label>
+          <select
+            id="quantity"
+            name="quantity"
+            onChange={(event) => setQuantity(event)}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
 
         <div>
           <AddToCartButton
             className={inCart == true ? "inCart" : ""}
             onClick={() => {
-              if (productDetail) {
-                addToCart(productDetail);
+              {
+                productDetail && addToCart(productDetail);
               }
             }}
           >
             {inCart == true ? "Added To Cart" : "Add To Cart"}
           </AddToCartButton>
           <WishlistButton
-            className={inWishlist == true ? "Wishlisted" : ""}
             onClick={() => {
-              if (productDetail) {
-                addToWishlist(productDetail);
+              {
+                productDetail && addToWishlist(productDetail);
               }
             }}
           >
-            {inWishlist == true ? "Wishlisted" : "Add To wishlist"}
+            {inWishlist == true ? "Remove from Wishlist" : "Add To wishlist"}
           </WishlistButton>
         </div>
         <OfferWrapper>

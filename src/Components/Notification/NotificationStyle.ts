@@ -20,15 +20,16 @@ const fadeOut = keyframes`
 `;
 
 export const NotificationWrapper = styled.div<{ show: boolean }>`
-  position: absolute;
-  width: 30%;
-  top: 60px;
+  position: fixed;
+  top: 80px;
+  padding: 0px 5px;
   right: 0;
   padding: 16px;
-  background-color: #8bed93;
+  background-color: rgb(113 203 76 / 89%);
   color: ${theme.colors.background};
   font-weight: bold;
   text-align: center;
+  font-size: 16px;
   opacity: ${(props) => (props.show ? "1" : "0")};
   animation: ${(props) => (props.show ? fadeIn : fadeOut)} 0.3s ease-in-out;
   z-index: 999;
@@ -36,5 +37,13 @@ export const NotificationWrapper = styled.div<{ show: boolean }>`
   @media (max-width: 768px) {
     font-size: 12px;
     padding: 8px;
+  }
+
+  .show {
+    display: inline-block;
+  }
+
+  .hide {
+    display: none;
   }
 `;

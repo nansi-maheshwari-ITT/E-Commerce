@@ -41,6 +41,9 @@ export const SignupPage = () => {
     event.preventDefault();
     if (!formData.email || !formData.password || !formData.username) {
       setErrorMessage("Please fill all the fields");
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
     } else {
       if (await createAccount(formData, setErrorMessage)) {
         createUserCollection(formData);
@@ -52,47 +55,48 @@ export const SignupPage = () => {
   };
 
   return (
-    <SignUpFormContainer>
-      <div className={`form-container ${active && "active"}`}>
-        <div className="form-heading">Create Account</div>
-        <form onSubmit={handleFormDataSubmit}>
-          <InputField
-            type="text"
-            id="username"
-            placeholder="Enter Your username"
-            label="User Name"
-            name="username"
-            value={formData.username}
-            handleFormDataChange={handleFormDataChange}
-          ></InputField>
-          <InputField
-            type="email"
-            id="email"
-            placeholder="Enter Your email id"
-            label="Email"
-            name="email"
-            value={formData.email}
-            handleFormDataChange={handleFormDataChange}
-          ></InputField>
-          <InputField
-            type="password"
-            id="password"
-            placeholder="Enter Your password"
-            label="Password"
-            name="password"
-            value={formData.password}
-            handleFormDataChange={handleFormDataChange}
-          ></InputField>
-          <p className="error-message">{errorMessage}</p>
-          <AuthButton text="Create account "></AuthButton>
-          {errorMessage && <Notification text={errorMessage}></Notification>}
-        </form>
+    <>
+      {errorMessage && <Notification text={errorMessage}></Notification>}{" "}
+      <SignUpFormContainer>
+        <div className={`form-container ${active && "active"}`}>
+          <div className="form-heading">Create Account</div>
+          <form onSubmit={handleFormDataSubmit}>
+            <InputField
+              type="text"
+              id="username"
+              placeholder="Enter Your username"
+              label="User Name"
+              name="username"
+              value={formData.username}
+              handleFormDataChange={handleFormDataChange}
+            ></InputField>
+            <InputField
+              type="email"
+              id="email"
+              placeholder="Enter Your email id"
+              label="Email"
+              name="email"
+              value={formData.email}
+              handleFormDataChange={handleFormDataChange}
+            ></InputField>
+            <InputField
+              type="password"
+              id="password"
+              placeholder="Enter Your password"
+              label="Password"
+              name="password"
+              value={formData.password}
+              handleFormDataChange={handleFormDataChange}
+            ></InputField>
+            <AuthButton text="Create account "></AuthButton>
+          </form>
 
-        <p className="login-link">
-          Already a member?
-          <Link to="/login">Log in here</Link>
-        </p>
-      </div>
-    </SignUpFormContainer>
+          <p className="login-link">
+            Already a member?
+            <Link to="/login">Log in here</Link>
+          </p>
+        </div>
+      </SignUpFormContainer>
+    </>
   );
 };

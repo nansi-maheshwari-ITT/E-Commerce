@@ -65,7 +65,7 @@ export const ProductContainer: React.FC<ProductContainerProps> = ({
       <CardWrapper>
         <FilterDiv>
           <SidebarButton onClick={handleSidebarClick}>
-            <FilterIcon icon={faSlidersH as IconProp}></FilterIcon>Filter
+            <FilterIcon icon={faSlidersH as IconProp}></FilterIcon>
           </SidebarButton>
           {filterApplied && (
             <>

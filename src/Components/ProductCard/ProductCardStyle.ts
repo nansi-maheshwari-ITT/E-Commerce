@@ -12,11 +12,48 @@ const Card = styled.div`
   transition: box-shadow 0.3s ease-in-out;
 
   &:hover {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  :hover .cart-icon {
+    display: inline-block;
+    opacity: 1;
+  }
+
+  :hover .wishlist-icon {
+    display: inline-block;
+    opacity: 1;
   }
 
   @media (max-width: 768px) {
     width: 220px;
+  }
+
+  .icon-container {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin: 7px auto;
+    width: 95%;
+  }
+  .wishlist-icon {
+    color: ${theme.colors.primary};
+    background-color: white;
+    border-radius: 14px;
+    cursor: pointer;
+    display: none;
+    font-size: 18px;
+    padding: 3px;
+  }
+  .cart-icon {
+    color: ${theme.colors.primary};
+    background-color: white;
+    border-radius: 20px;
+    padding: 5px 2px 22px 2px;
+    cursor: pointer;
+    display: none;
+    font-size: 22px;
   }
 `;
 
@@ -31,6 +68,23 @@ const Image = styled.img`
 
   @media (max-width: 768px) {
     height: 150px;
+  }
+
+  &:hover {
+    opacity:0.5;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      transition: bottom 0.3s ease-in-out;
+      z-index: 1;
+    }
+
+    transform: translateY(-10px);
   }
 `;
 
@@ -60,7 +114,7 @@ const Price = styled.p`
   }
 `;
 
-// Rating text styles
+
 const RatingText = styled.span``;
 
 const RandomReviews = styled.span`

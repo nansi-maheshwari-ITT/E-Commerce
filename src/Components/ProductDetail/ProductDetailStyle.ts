@@ -4,7 +4,7 @@ import theme from "../../Theme";
 const DetailedProductWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  width: 80%;
+  width: 85%;
   justify-content: space-around;
   margin: 30px auto;
 
@@ -52,6 +52,20 @@ const ProductInfoWrapper = styled.div`
     border: none;
     color: ${theme.colors.background};
   }
+
+  .quantity-selection-bar {
+    margin: 10px 0px;
+    color: ${theme.colors.text};
+  }
+
+  #quantity {
+    margin: 0px 10px;
+    width: 40px;
+
+    @media (max-width: 768px) {
+      font-size: 10px;
+    }
+  }
 `;
 
 const ProductName = styled.h2`
@@ -88,6 +102,7 @@ const WishlistButton = styled.button`
   &:hover {
     background-color: ${theme.colors.background};
     cursor: pointer;
+    padding: 8px 20px;
     color: ${theme.colors.primary};
     border: 2px solid ${theme.colors.primary};
   }
@@ -97,8 +112,8 @@ const WishlistButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    font-size: 10px;
-    padding: 5px;
+    font-size: 9px;
+    padding: 4px;
   }
 `;
 
@@ -110,13 +125,15 @@ const AddToCartButton = styled.button`
   color: ${theme.colors.primary};
   font-size: 18px;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 8px 20px;
   transition: all 0.2s ease;
 
   &:hover {
-    border: 2px solid ${theme.colors.quaternary};
-    color: ${theme.colors.quaternary};
+    border: none;
+    color: ${theme.colors.background};
+    background-color: ${theme.colors.primary};
     cursor: pointer;
+    padding: 10px 20px;
   }
 
   &:focus {
@@ -124,8 +141,9 @@ const AddToCartButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    font-size: 10px;
-    padding: 5px;
+    font-size: 9px;
+    padding: 3px;
+    margin-right: 6px;
   }
 `;
 

@@ -3,15 +3,15 @@ import { NotificationProps } from "./NotificationInterface";
 import { NotificationWrapper } from "./NotificationStyle";
 
 const Notification: React.FC<NotificationProps> = ({ text }) => {
-  const [show, setShow] = useState(true);
+  const [notificationVisibiltiy, setNotificationVisibiltiy] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShow(false);
+    setTimeout(() => {
+      setNotificationVisibiltiy(false);
     }, 2000);
   }, []);
 
-  return <NotificationWrapper show={show}>{text}</NotificationWrapper>;
+  return <NotificationWrapper  show={notificationVisibiltiy}>{text}</NotificationWrapper>;
 };
 
 export default Notification;

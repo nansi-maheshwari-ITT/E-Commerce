@@ -37,7 +37,7 @@ describe("CartProductCard", () => {
   beforeEach(() => {
     render(
       <CartProductCard
-        cardItem={cardItem}
+        cartItems={cardItem}
         removeItemFromCart={removeItemFromCart}
         increaseCartItemQuantity={increaseCartItemQuantity}
         decreaseCartItemQuantity={decreaseCartItemQuantity}
@@ -46,9 +46,9 @@ describe("CartProductCard", () => {
   });
   test("should render cart product card with correct details", () => {
     expect(screen.getByText("Description 1")).toBeInTheDocument();
-    expect(screen.getByText("₹100")).toBeInTheDocument();
+    expect(screen.getByText("Rs.100")).toBeInTheDocument();
     expect(screen.getByText("Description 2")).toBeInTheDocument();
-    expect(screen.getByText("₹150")).toBeInTheDocument();
+    expect(screen.getByText("Rs.150")).toBeInTheDocument();
   });
 
   test("should call removeItemFromCart function when 'Remove' button is clicked", () => {

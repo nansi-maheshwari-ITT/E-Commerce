@@ -10,14 +10,16 @@ const NavBar = styled.nav`
   background-color: ${theme.colors.background};
   color: ${theme.colors.primary};
   box-shadow: rgb(153 147 147 / 32%) 0px 1px 9px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   .profile-div {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .cart-icon,
-  .wishlist-icon {
+  #icons {
     @media (max-width: 768px) {
       display: none;
     }
@@ -36,9 +38,11 @@ const Logo = styled.h1`
   font-weight: bold;
   font-family: "Playfair Display", serif;
   cursor: pointer;
+  margin-left: 20px;
 
   @media (max-width: 768px) {
     font-size: 1.8rem;
+    margin-left: 2px;
   }
 `;
 
@@ -72,7 +76,7 @@ const SearchInput = styled.input`
   border: none;
   outline: none;
   width: 100%;
-  padding: 1rem 1rem;
+  padding: 0.9rem 1.8rem;
   background-color: rgb(255 255 255 / 39%);
   @media (max-width: 768px) {
     padding: 0.1rem;
@@ -85,6 +89,13 @@ const Button = styled.button`
   margin-left: 1.5rem;
   cursor: pointer;
   color: ${theme.colors.primary};
+
+  span {
+    font-size: 12px;
+    position: relative;
+    left: 102%;
+    bottom: 17px;
+  }
 `;
 
 const LoginButton = styled(Button)`

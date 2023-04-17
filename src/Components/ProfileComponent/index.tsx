@@ -14,13 +14,19 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { WishlistState } from "../../Redux/Reducer/SetWishlistItems";
 import { CartItemState } from "../../Redux/Reducer/SetCartItems";
 import { useSelector } from "react-redux";
-import { signOutUser } from "../../Redux/Actions";
+import {
+  saveCartItems,
+  saveWishlistItems,
+  signOutUser,
+} from "../../Redux/Actions";
 import { updateDataInFirebase } from "../../Services/Services";
+import Notification from "../Notification";
 
 const ProfileIcon = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const userName = localStorage.getItem("userName");
   const emailId = localStorage.getItem("email");
+  const [notificationMessage,setNotificationMessage]=useState("");
   const cartItems = useSelector((state: CartItemState) => state.cartItem);
   const wishlistItems = useSelector(
     (state: WishlistState) => state.wishlistItems
@@ -32,63 +38,71 @@ const ProfileIcon = () => {
   const dispatch = useDispatch();
 
   const handleUserLogout = async () => {
-    if (emailId) {
-      updateDataInFirebase(emailId, cartItems, wishlistItems);
-    }
+ setNotificationMessage("User Logged Out");
     localStorage.removeItem("email");
     localStorage.removeItem("userName");
     dispatch(signOutUser());
+    dispatch(saveWishlistItems([]));
+    dispatch(saveCartItems([]));
     navigate("/");
     setDropdownOpen(!dropdownOpen);
   };
 
   return (
-    <ProfileIconContainer>
-      <Button>
-        <ProfileImage
-          data-testid="profile-image"
-          icon={faUser as IconProp}
-          onClick={toggleDropdown}
-        />
-      </Button>
+    <> {notificationMessage && <Notification text={notificationMessage}/>} <ProfileIconContainer>
+    <Button>
+      <ProfileImage
+        data-testid="profile-image"
+        icon={faUser as IconProp}
+        onClick={toggleDropdown}
+      />
+    </Button>
 
-      {dropdownOpen && (
-        <Dropdown data-testid="dropdown">
-          {!emailId ? (
-            <>
-              <DropdownText>Hello User !</DropdownText>
-              <DropdownLink
-                data-testid="login/signup"
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Login/Signup
-              </DropdownLink>
-            </>
-          ) : (
-            <>
-              <DropdownText>Hello {userName} !</DropdownText>
-              <DropdownLink onClick={handleUserLogout}>Logout</DropdownLink>
-              <DropdownLink
-                onClick={() => {
-                  navigate("/wishlist");
-                }}
-              >
-                Wishlist
-              </DropdownLink>
-              <DropdownLink
-                onClick={() => {
-                  navigate("/cart");
-                }}
-              >
-                Cart
-              </DropdownLink>
-            </>
-          )}
-        </Dropdown>
-      )}
-    </ProfileIconContainer>
+    {dropdownOpen && (
+      <Dropdown data-testid="dropdown">
+        {!emailId ? (
+          <>
+            <DropdownText>Hello User !</DropdownText>
+            <DropdownLink
+              data-testid="login/signup"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login/Signup
+            </DropdownLink>
+          </>
+        ) : (
+          <>
+            <DropdownText>Hello {userName} !</DropdownText>
+            <DropdownLink
+              onClick={() => {
+                navigate("/wishlist");
+              }}
+            >
+              Wishlist
+            </DropdownLink>
+            <DropdownLink
+              onClick={() => {
+                navigate("/cart");
+              }}
+            >
+              Cart
+            </DropdownLink>
+            <DropdownLink
+              onClick={() => {
+                navigate("/orderHistory");
+              }}
+            >
+              Order History
+            </DropdownLink>
+            <DropdownLink onClick={handleUserLogout}>Logout</DropdownLink>
+          </>
+        )}
+      </Dropdown>
+    )}
+  </ProfileIconContainer></>
+   
   );
 };
 

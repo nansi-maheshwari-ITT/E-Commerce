@@ -10,40 +10,40 @@ import {
   CartItemImage,
   CartItemPrice,
 } from "./CartProductCardStyle";
-
+import { increaseBtnText, decreaseBtnText, removeBtnText } from "./Constant";
 export const CartProductCard: React.FC<CartProductCardProps> = ({
-  cardItem,
+  cartItems,
   removeItemFromCart,
   increaseCartItemQuantity,
   decreaseCartItemQuantity,
 }) => {
   return (
     <>
-      {cardItem.map((item) => (
+      {cartItems.map((item) => (
         <CartItem key={item.id}>
           <CartItemImage src={item.imageurl} alt={item.name} />
           <CartItemDetails>
             <CartItemName>{item.description}</CartItemName>
-            <CartItemPrice>₹{item.price}</CartItemPrice>
+            <CartItemPrice>Rs.{item.price}</CartItemPrice>
             <CartItemQuantity>
               <CartItemQuantityButton
                 onClick={() => decreaseCartItemQuantity(item.quantity, item.id)}
                 data-testid={`decrementButton-${item.id}`}
               >
-                -
+                {decreaseBtnText}
               </CartItemQuantityButton>
               {item.quantity}
               <CartItemQuantityButton
                 onClick={() => increaseCartItemQuantity(item.quantity, item.id)}
                 data-testid={`incrementButton-${item.id}`}
               >
-                +
+                {increaseBtnText}
               </CartItemQuantityButton>
               <CartItemRemoveButton
                 onClick={() => removeItemFromCart(item.id)}
                 data-testid={`removeButton-${item.id}`}
               >
-                Remove
+                {removeBtnText}
               </CartItemRemoveButton>
             </CartItemQuantity>
           </CartItemDetails>

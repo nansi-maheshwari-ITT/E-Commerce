@@ -53,4 +53,44 @@ describe("ProfileIcon", () => {
     localStorage.removeItem("email");
     localStorage.removeItem("userName");
   });
+
+  test("when clicked to order history it should go to order history page", () => {
+    localStorage.setItem("email", "test@example.com");
+    localStorage.setItem("userName", "Test User");
+    const profileImage = screen.getByTestId("profile-image");
+    fireEvent.click(profileImage);
+    const orderHistoryLink = screen.getByText("Order History");
+    fireEvent.click(orderHistoryLink);
+    expect(window.location.pathname).toBe("/orderHistory");
+  });
+
+  test("when clicked to Wishlist it should go to Wishlist page", () => {
+    localStorage.setItem("email", "test@example.com");
+    localStorage.setItem("userName", "Test User");
+    const profileImage = screen.getByTestId("profile-image");
+    fireEvent.click(profileImage);
+    const wishlistLink = screen.getByText("Wishlist");
+    fireEvent.click(wishlistLink);
+    expect(window.location.pathname).toBe("/wishlist");
+  });
+
+  test("when clicked to Cart it should go to Cart page", () => {
+    localStorage.setItem("email", "test@example.com");
+    localStorage.setItem("userName", "Test User");
+    const profileImage = screen.getByTestId("profile-image");
+    fireEvent.click(profileImage);
+    const CartLink = screen.getByText("Cart");
+    fireEvent.click(CartLink);
+    expect(window.location.pathname).toBe("/cart");
+  });
+
+  test("when clicks to logout link it should come to home page", () => {
+    localStorage.setItem("email", "test@example.com");
+    localStorage.setItem("userName", "Test User");
+    const profileImage = screen.getByTestId("profile-image");
+    fireEvent.click(profileImage);
+    const LogoutLink = screen.getByText("Logout");
+    fireEvent.click(LogoutLink);
+    expect(window.location.pathname).toBe("/");
+  });
 });
