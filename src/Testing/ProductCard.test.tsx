@@ -1,10 +1,10 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import { ProductCard } from "../Components/ProductCard";
 import { infoDataType } from "../Screens/Home/HomeInterface";
 import { BrowserRouter as Router } from "react-router-dom";
+import { store } from "../Redux/Store";
+import { Provider } from "react-redux";
 
-// Mock data for product
 const product: infoDataType = {
   id: 1,
   name: "Product 1",
@@ -20,9 +20,11 @@ const product: infoDataType = {
 describe("ProductCard", () => {
   test("renders product card with correct data", () => {
     const { getByText, getByAltText, getByTestId } = render(
-      <Router>
-        <ProductCard product={product} />
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <ProductCard product={product} />
+        </Router>
+      </Provider>
     );
     expect(getByText("Product Description")).toBeInTheDocument();
     expect(getByText("View")).toBeInTheDocument();
@@ -30,9 +32,11 @@ describe("ProductCard", () => {
 
   test("navigates to detailed product page on image click and view button click", () => {
     const { getByAltText, getByText } = render(
-      <Router>
-        <ProductCard product={product} />
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <ProductCard product={product} />
+        </Router>
+      </Provider>
     );
     fireEvent.click(getByAltText("Product Description"));
     expect(window.location.pathname).toBe(`/product/men/1`);

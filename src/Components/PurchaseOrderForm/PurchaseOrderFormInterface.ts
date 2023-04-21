@@ -11,7 +11,7 @@ export interface FormFields {
   [key: string]: string;
 }
 
-export interface PlacingOrderProps {
+export interface PurchaseOrderProps {
   cartItems: cartItemType[];
   finalPrice: number;
 }

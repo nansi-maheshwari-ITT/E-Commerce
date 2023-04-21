@@ -8,13 +8,13 @@ const CardContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 250px;
+  width: 235px;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.25);
   background-color: #fff;
   transition: all 0.2s ease-in-out;
-  margin: 1em;
+  margin: 0.5em;
 
   &:hover {
     transform: scale(1.05);
@@ -24,6 +24,7 @@ const CardContainer = styled.div`
   @media (max-width: 768px) {
     width: 100px;
     margin: 0.5em;
+    height:220px;
   }
 `;
 
@@ -80,14 +81,16 @@ const AddToCartButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 10px;
-  font-size: 1.2rem;
+  padding: 8px 12px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${theme.colors.quaternary};
+    background-color: ${theme.colors.background};
+    color: ${theme.colors.primary};
+    border: 1px solid ${theme.colors.primary};
   }
 
   @media (max-width: 768px) {
@@ -98,22 +101,32 @@ const AddToCartButton = styled.button`
 
 const CardDiv = styled.div`
   display: flex;
-  justify-content: space-betweem;
+  flex-wrap: wrap;
   margin: 2em;
-  overflow-x: scroll;
+  height: 400px;
+  overflow-y: scroll;
 
   ::-webkit-scrollbar {
     display: none;
   }
+
+  @media(max-width:768px){
+    margin: 1em;
+    height: 500px;
+  }
 `;
 const CartEmptyMessage = styled.div`
   margin: auto;
-
   height: 300px;
 
   p {
     font-size: 25px;
     text-align: center;
+    margin: -60px;
+  }
+
+  @media (max-width: 768px) {
+    margin: -40px;
   }
 `;
 

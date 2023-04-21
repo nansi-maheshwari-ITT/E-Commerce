@@ -3,12 +3,12 @@ import MenProfile from "../../Assets/Images/MenProfile.jpg";
 import WomenProfile from "../../Assets/Images/WomenProfile.jpg";
 import KidProfile from "../../Assets/Images/KidProfile.jpg";
 import Electronics from "../../Assets/Images/Electronics.jpg";
-import { CategorySelectionContainerWrapper } from "./CategorySelectionContainerStyle";
-import { CategorySelectionContainerProps } from "./CatergorySelectionContainerInterface";
+import { CategoryNavbarWrapper } from "./CategoryNavbarStyle";
+import { CategoryNavbarProps } from "./CategoryNavbarInterface";
 
-export const CategorySelectionContainer: React.FC<
-  CategorySelectionContainerProps
-> = ({ applyFilter }) => {
+export const CategoryNavbar: React.FC<CategoryNavbarProps> = ({
+  applyFilter,
+}) => {
   const categories = [
     { label: "Men", value: "men", image: MenProfile },
     { label: "Women", value: "women", image: WomenProfile },
@@ -17,7 +17,7 @@ export const CategorySelectionContainer: React.FC<
     { label: "Electronics ", value: "electronics", image: Electronics },
   ];
   return (
-    <CategorySelectionContainerWrapper data-testid="categorySelection">
+    <CategoryNavbarWrapper data-testid="categorySelection">
       {categories.map((category, index) => (
         <div key={index}>
           <div className="img-wrapper">
@@ -30,6 +30,6 @@ export const CategorySelectionContainer: React.FC<
           <p>{category.label}</p>
         </div>
       ))}
-    </CategorySelectionContainerWrapper>
+    </CategoryNavbarWrapper>
   );
 };

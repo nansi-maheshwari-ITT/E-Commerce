@@ -11,11 +11,11 @@ import {
   saveProductDetails,
   saveWishlistItems,
 } from "../Redux/Actions";
-import { useParams } from "react-router-dom"; // Import useParams to mock URL params
+import { useParams } from "react-router-dom"; 
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
-  useParams: jest.fn(), // Mock useParams
+  useParams: jest.fn(), 
 }));
 
 describe("ProductDetails", () => {
@@ -56,9 +56,7 @@ describe("ProductDetails", () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<ProductDetails />} />
-          </Routes>
+         <ProductDetails/>
         </BrowserRouter>
       </Provider>
     );

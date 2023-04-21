@@ -12,6 +12,7 @@ import {
   ProductPrice,
   WishlistHeading,
 } from "./WishlistStyle";
+import WishlistEmpty from "../../Assets/Images/WishlistEmpty.gif";
 import { useEffect, useState } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { CartItemState } from "../../Redux/Reducer/SetCartItems";
@@ -19,6 +20,12 @@ import { saveCartItems, saveWishlistItems } from "../../Redux/Actions";
 import { infoDataType } from "../Home/HomeInterface";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import Notification from "../../Components/Notification";
+import {
+  updateCartDataInFirebase,
+  updateDataInFirebase,
+  updateWishlistDataInFirebase,
+} from "../../Services/Services";
+import { AddToCartBtnText, EmptyWishlistMessage } from "./Constant";
 
 export const Wishlist = () => {
   const dispatch = useDispatch();
@@ -27,18 +34,16 @@ export const Wishlist = () => {
   );
   const cartItems = useSelector((state: CartItemState) => state.cartItem);
   const [notification, setNotification] = useState("");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setNotification("");
-    }, 3000);
-  });
+  const email = localStorage.getItem("email");
 
   const addItemToCart = (product: infoDataType) => {
     const cartItemIndex = findCartItemIndex(product);
     if (cartItemIndex === -1) {
       const updatedCartItems = [...cartItems, { ...product, quantity: 1 }];
       dispatch(saveCartItems(updatedCartItems));
+      if (email) {
+        updateCartDataInFirebase(email, updatedCartItems);
+      }
     } else {
       const newCartItem = {
         ...cartItems[cartItemIndex],
@@ -50,9 +55,15 @@ export const Wishlist = () => {
         ...cartItems.slice(cartItemIndex + 1),
       ];
       dispatch(saveCartItems(updatedCartItems));
+      if (email) {
+        updateCartDataInFirebase(email, updatedCartItems);
+      }
     }
     removeItemFromWishlist(product.id);
     setNotification("Product Added To Cart");
+    setTimeout(() => {
+      setNotification("");
+    }, 3000);
   };
 
   const findCartItemIndex = (product: infoDataType) => {
@@ -64,17 +75,23 @@ export const Wishlist = () => {
       (item) => item.id !== productId
     );
     dispatch(saveWishlistItems(updatedWishlist));
+    if (email) {
+      updateWishlistDataInFirebase(email, updatedWishlist);
+    }
     setNotification("Product removed from wishlist");
+    setTimeout(() => {
+      setNotification("");
+    }, 3000);
   };
 
   return (
     <div>
       {notification && <Notification text={notification}></Notification>}
-      <WishlistHeading>My Wishlist ({wishlistItems.length})</WishlistHeading>
       <CardDiv>
         {wishlistItems.length === 0 ? (
           <CartEmptyMessage data-testid="wishlistEmptyMessage">
-            <p>Your wishlist is empty</p>
+            <img src={WishlistEmpty}></img>
+            <p>{EmptyWishlistMessage}</p>
           </CartEmptyMessage>
         ) : (
           <>
@@ -88,14 +105,14 @@ export const Wishlist = () => {
                 </IconContainer>
                 <ProductImage src={product.imageurl} alt={product.name} />
                 <ProductDescription>{product.description}</ProductDescription>
-                <ProductPrice>${product.price}</ProductPrice>
+                <ProductPrice>Rs.{product.price}</ProductPrice>
                 <AddToCartButton
                   onClick={() => {
                     addItemToCart(product);
                   }}
                   data-testid={`addToCartButton-${product.id}`}
                 >
-                  Add to cart
+                 {AddToCartBtnText}
                 </AddToCartButton>
               </CardContainer>
             ))}

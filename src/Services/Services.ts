@@ -17,7 +17,8 @@ import { SignUpFormInterface } from "../Screens/SignupPage/SignUpFormInterface";
 import { LogInFormInterface } from "../Screens/LoginPage/LogInFormInterface";
 import { infoDataType } from "../Screens/Home/HomeInterface";
 import { cartItemType } from "../Screens/CartScreen/CartScreenInterface";
-import { FormFields } from "../Components/PlacingOrderForm/PlacingOrderFormInterface";
+import { FormFields } from "../Components/PurchaseOrderForm/PurchaseOrderFormInterface";
+import { debug } from "console";
 
 export const createAccount = async (
   formData: SignUpFormInterface,
@@ -34,8 +35,19 @@ export const createAccount = async (
     });
     setErrorMessage("Account is created successfully");
     return true;
-  } catch (error) {
-    setErrorMessage("Error while creating account");
+  } catch (error: any) {
+    if (error.message == "Firebase: Error (auth/email-already-in-use).") {
+      setErrorMessage("Account is already in use");
+    } else if (
+      error.message ==
+      "Firebase: Password should be at least 6 characters (auth/weak-password)."
+    ) {
+      setErrorMessage("Password should be atleast 6 characters");
+    } else if (error.message == "Firebase: Error (auth/invalid-email).") {
+      setErrorMessage("Invalid email address");
+    } else {
+      setErrorMessage("Unknown error while creating account");
+    }
     return false;
   }
 };
@@ -67,13 +79,19 @@ export const loginToAccount = async (
       formData.password
     );
     setErrorMessage("Logged in successfully");
+    
     return user;
-  } catch (error) {
-    setErrorMessage("Error while logging in");
+  } catch (error: any) {
+    if (error.message == "Firebase: Error (auth/wrong-password).") {
+      setErrorMessage("Invalid Password");
+    } else {
+      setErrorMessage("User does not exist");
+    }
+   
   }
 };
 
-export const fetchProductData = async () => {
+export const fetchProductDetails = async () => {
   try {
     const dataSet = collection(db, "products");
     const query = await getDocs(dataSet);
@@ -84,7 +102,7 @@ export const fetchProductData = async () => {
   }
 };
 
-export const fetchUsersData = async (email: string) => {
+export const fetchUsersDetails = async (email: string) => {
   try {
     const userDocRef = doc(collection(db, "users"), email);
     const docSnapshot = await getDoc(userDocRef);
@@ -103,8 +121,41 @@ export const updateDataInFirebase = async (
   wishlistItems: infoDataType[]
 ) => {
   const userDocRef = doc(collection(db, "users"), emailId);
+
   try {
-    await updateDoc(userDocRef, { cartItems, wishlistItems });
+    await updateDoc(userDocRef, {
+      cartItems: cartItems,
+      wishlistItems: wishlistItems,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateWishlistDataInFirebase = async (
+  emailId: string,
+  wishlistItems: infoDataType[]
+) => {
+  const userDocRef = doc(collection(db, "users"), emailId);
+
+  try {
+    await updateDoc(userDocRef, {
+      wishlistItems: wishlistItems,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateCartDataInFirebase = async (
+  emailId: string,
+  cartItems: cartItemType[]
+) => {
+  const userDocRef = doc(collection(db, "users"), emailId);
+  try {
+    await updateDoc(userDocRef, {
+      cartItems: cartItems,
+    });
   } catch (error) {
     throw error;
   }
@@ -112,17 +163,19 @@ export const updateDataInFirebase = async (
 
 export const updateOrderHistoryInFirebase = async (
   email: string,
+  purchaserEmail: string,
+  address: string,
   cartItems: cartItemType[],
-  formFields: FormFields,
   finalPrice: number
 ) => {
   const userCollectionRef = collection(db, "users");
   const userDocRef = doc(userCollectionRef, email);
   const newOrder = {
     orderId: Date.now().toString(36).substr(2, 9),
-    ...formFields,
-    ...cartItems,
-    finalPrice,
+    email: purchaserEmail,
+    address: address,
+    purchasedProduct: cartItems,
+    finalPrice: finalPrice,
   };
   await updateDoc(userDocRef, {
     orderHistory: arrayUnion(newOrder),

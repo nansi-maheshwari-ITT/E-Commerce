@@ -15,23 +15,28 @@ import {
   FieldsContainer,
   FieldGroup,
   Label,
-} from "./PlacingOrderFormStyle";
+} from "./PurchaseOrderFormStyle";
 import {
   FormFields,
   Field,
-  PlacingOrderProps,
-} from "./PlacingOrderFormInterface";
-import { inputFields } from "./Constant";
-import cartItem from "../../Redux/Reducer/SetCartItems";
+  PurchaseOrderProps,
+} from "./PurchaseOrderFormInterface";
+import {
+  CodText,
+  ConfirmOrder,
+  OnlyCodAvailable,
+  inputFields,
+} from "./Constant";
 import { updateOrderHistoryInFirebase } from "../../Services/Services";
+import Notification from "../Notification";
 
-export const PlacingOrderForm: React.FC<PlacingOrderProps> = ({
+export const PurchaseOrderForm: React.FC<PurchaseOrderProps> = ({
   finalPrice,
   cartItems,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [formFields, setFormFields] = useState<FormFields>({
-    name: "",
+    email: "",
     phone: "",
     address: "",
     pincode: "",
@@ -64,18 +69,41 @@ export const PlacingOrderForm: React.FC<PlacingOrderProps> = ({
     }));
   };
 
-  const handleConfirmOrder = async () => {
+  const handleConfirmOrder = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event?.preventDefault();
     const emptyFields = inputFields.filter((field) => !formFields[field.name]);
     if (emptyFields.length > 0) {
       setErrorMessage("Please fill in all fields.");
       return;
     } else {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(formFields.email)) {
+        setErrorMessage("Please enter a valid email address.");
+        return;
+      }
+      const telephonePattern = /^\d{10}$/;
+      if (!telephonePattern.test(formFields.phone)) {
+        setErrorMessage("Please enter a valid 10-digit telephone number.");
+        return;
+      }
+      const pincodePattern = /^\d{6}$/;
+      if (!pincodePattern.test(formFields.pincode)) {
+        setErrorMessage("Please enter a valid pincode");
+      }
       if (email) {
-        updateOrderHistoryInFirebase(email, cartItems, formFields, finalPrice);
+        updateOrderHistoryInFirebase(
+          email,
+          formFields.email,
+          formFields.address,
+          cartItems,
+          finalPrice
+        );
         dispatch(saveCartItems([]));
       }
+      navigate(`/orderplaced`);
     }
-    navigate(`/orderplaced`);
   };
 
   return (
@@ -96,7 +124,7 @@ export const PlacingOrderForm: React.FC<PlacingOrderProps> = ({
           ))}
         </FieldsContainer>
         <FieldGroup>
-          <Label htmlFor="Payment Option">Payment Option</Label>
+          <Label htmlFor="Payment Option">{PaymentOption}</Label>
           <PaymentOption>
             <RadioButton
               id="Payment Option"
@@ -106,14 +134,14 @@ export const PlacingOrderForm: React.FC<PlacingOrderProps> = ({
               checked={formFields.paymentOption === "cod"}
               onChange={handlePaymentOptionChange}
             />
-            <span>Cash on Delivery</span>
+            <span>{CodText}</span>
           </PaymentOption>
           {formFields.paymentOption !== "card" && (
-            <Message>Only Cash on Delivery is available</Message>
+            <Message>{OnlyCodAvailable}</Message>
           )}
         </FieldGroup>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <Button type="submit">Confirm Order</Button>
+        {errorMessage && <p className=".error-message">{errorMessage}</p>}
+        <Button type="submit">{ConfirmOrder}</Button>
       </form>
     </FormContainer>
   );

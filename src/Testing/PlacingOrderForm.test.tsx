@@ -1,13 +1,13 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { PlacingOrderForm } from "../Components/PlacingOrderForm";
+import { PurchaseOrderForm } from "../Components/PurchaseOrderForm";
 import rootReducer from "../Redux/Reducer";
 import { Provider } from "react-redux";
 import { configureStore, Store } from "@reduxjs/toolkit";
 import { BrowserRouter as Router } from "react-router-dom";
 import { cartItemType } from "../Screens/CartScreen/CartScreenInterface";
 
-describe("PlacingOrderForm", () => {
+describe("PurchaseOrderForm", () => {
   const mockFinalPrice = 100;
   const mockCartItems: cartItemType[] = [
     {
@@ -43,7 +43,7 @@ describe("PlacingOrderForm", () => {
     render(
       <Provider store={store}>
         <Router>
-          <PlacingOrderForm
+          <PurchaseOrderForm
             finalPrice={mockFinalPrice}
             cartItems={mockCartItems}
           />
@@ -53,7 +53,7 @@ describe("PlacingOrderForm", () => {
   });
 
   test("renders form fields correctly", () => {
-    expect(screen.getByLabelText("Name")).toBeInTheDocument();
+    expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Phone no")).toBeInTheDocument();
     expect(screen.getByLabelText("Address")).toBeInTheDocument();
     expect(screen.getByLabelText("Pincode")).toBeInTheDocument();
@@ -62,6 +62,31 @@ describe("PlacingOrderForm", () => {
     expect(screen.getByLabelText("Payment Option")).toBeInTheDocument();
     expect(screen.getByText("Cash on Delivery")).toBeInTheDocument();
     expect(screen.getByText("Confirm Order")).toBeInTheDocument();
+  });
+
+  test("renders form fields and confirms order with valid data", () => {
+    const emailInput = screen.getByLabelText("Email");
+    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+
+    const phoneInput = screen.getByLabelText("Phone no");
+    fireEvent.change(phoneInput, { target: { value: "1234567890" } });
+
+    const addressInput = screen.getByLabelText("Address");
+    fireEvent.change(addressInput, { target: { value: "Test Address" } });
+
+    const pincodeInput = screen.getByLabelText("Pincode");
+    fireEvent.change(pincodeInput, { target: { value: "123456" } });
+
+    const cityInput = screen.getByLabelText("City/District");
+    fireEvent.change(cityInput, { target: { value: "Test City" } });
+
+    const stateInput = screen.getByLabelText("State");
+    fireEvent.change(stateInput, { target: { value: "Test State" } });
+
+    const confirmOrderButton = screen.getByText("Confirm Order");
+    fireEvent.click(confirmOrderButton);
+
+    expect(window.location.pathname).toBe("/orderplaced");
   });
 
   test("displays error message if form fields are not filled", () => {

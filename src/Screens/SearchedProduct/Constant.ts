@@ -1,0 +1,1 @@
+export const NoProductsMatched="No products matched your search";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import EmptyCart from "../../Assets/Images/EmptyCart.gif";
 import {
   CartPageContainer,
   CartItemsContainer,
@@ -16,13 +16,16 @@ import { CartProductCard } from "../../Components/CartProductCard";
 import { CartItemState } from "../../Redux/Reducer/SetCartItems";
 import { saveCartItems } from "../../Redux/Actions";
 import Notification from "../../Components/Notification";
-import { PlacingOrderForm } from "../../Components/PlacingOrderForm";
+import { PurchaseOrderForm } from "../../Components/PurchaseOrderForm";
+import { updateCartDataInFirebase } from "../../Services/Services";
+import { CartSummary, Delivery, Discount, EmptyCartMessage, GoBackToCart, PlaceOrder, TotalItems, TotalPrice } from "./Constant";
 
 export const CartScreen = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: CartItemState) => state.cartItem);
   const [orderInProgress, setOrderInProgress] = useState(false);
   const [notification, setNotification] = useState("");
+  const email = localStorage.getItem("email");
   const getTotalPrice = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -40,16 +43,16 @@ export const CartScreen = () => {
   }
   const finalPrice = getTotalPrice() + deliveryCharge - discountedPrice;
 
-  useEffect(() => {
+  const removeItemFromCart = (productId: number) => {
+    const updatedCartItems = cartItems.filter((item) => item.id !== productId);
+    if (email) {
+      updateCartDataInFirebase(email, updatedCartItems);
+    }
+    dispatch(saveCartItems(updatedCartItems));
+    setNotification("Product removed from cart");
     setTimeout(() => {
       setNotification("");
     }, 3000);
-  });
-
-  const removeItemFromCart = (productId: number) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== productId);
-    dispatch(saveCartItems(updatedCartItems));
-    setNotification("Product removed from cart");
   };
 
   const updateCartItemQuantity = (productId: number, newQuantity: number) => {
@@ -61,6 +64,9 @@ export const CartScreen = () => {
       ...cartItems.slice(itemIndex + 1),
     ];
     dispatch(saveCartItems(updatedCartItems));
+    if (email) {
+      updateCartDataInFirebase(email, updatedCartItems);
+    }
   };
 
   const increaseCartItemQuantity = (
@@ -68,8 +74,18 @@ export const CartScreen = () => {
     productId: number
   ) => {
     const newQuantity = productQuantity + 1;
-    updateCartItemQuantity(productId, newQuantity);
-    setNotification("Product's quantity increased");
+    if (newQuantity <= 15) {
+      updateCartItemQuantity(productId, newQuantity);
+      setNotification("Product's quantity increased");
+      setTimeout(() => {
+        setNotification("");
+      }, 3000);
+    } else {
+      setNotification("Max quantity reached");
+      setTimeout(() => {
+        setNotification("");
+      }, 3000);
+    }
   };
 
   const decreaseCartItemQuantity = (
@@ -79,57 +95,67 @@ export const CartScreen = () => {
     const newQuantity = productQuantity - 1;
     if (newQuantity > 0) {
       updateCartItemQuantity(productId, newQuantity);
+      setNotification("Product's quantity decreased");
+      setTimeout(() => {
+        setNotification("");
+      }, 3000);
     } else {
-      removeItemFromCart(productId);
+      setNotification("Quantity cannot be decreased than 1");
+      setTimeout(() => {
+        setNotification("");
+      }, 3000);
     }
-    setNotification("Product's quantity decreased");
   };
 
   return (
-    <CartPageContainer data-testid="cart-page-container">
+    <CartPageContainer
+      data-testid="cart-page-container"
+      className={cartItems.length === 0 ? "empty-cart" : ""}
+    >
       {cartItems.length === 0 ? (
         <CartEmptyMessage data-testid="empty-cart-message">
-          <p>Your cart is empty</p>
+          <img src={EmptyCart} alt="" />
+          <p>{EmptyCartMessage}</p>
         </CartEmptyMessage>
       ) : (
         <>
           <CartItemsContainer>
             {!orderInProgress ? (
               <CartProductCard
-                cardItem={cartItems}
+                cartItems={cartItems}
                 removeItemFromCart={removeItemFromCart}
                 increaseCartItemQuantity={increaseCartItemQuantity}
                 decreaseCartItemQuantity={decreaseCartItemQuantity}
               ></CartProductCard>
             ) : (
               <>
-                <PlacingOrderForm
+                <PurchaseOrderForm
                   cartItems={cartItems}
                   finalPrice={finalPrice}
-                ></PlacingOrderForm>
+                ></PurchaseOrderForm>
               </>
             )}
           </CartItemsContainer>
           <CartSummaryContainer>
-            <CartSummaryTitle>Cart Summary</CartSummaryTitle>
+            <CartSummaryTitle>{CartSummary}</CartSummaryTitle>
             <CartSummaryItem>
-              <div>Total Items</div>
+              <div>{TotalItems}</div>
               <div>{cartItems.length}</div>
             </CartSummaryItem>
             <CartSummaryItem>
-              <div>Total Price</div>
-              <div>₹{getTotalPrice()}</div>
+              <div>{TotalPrice}</div>
+              <div>Rs.{getTotalPrice()}</div>
             </CartSummaryItem>
             <CartSummaryItem>
-              <div>Discount</div>
-              <div>-₹{discountedPrice}</div>
+              <div>{Discount}</div>
+              <div>-Rs.{discountedPrice}</div>
             </CartSummaryItem>
             <CartSummaryItem>
-              <div>Delivery</div>
+              <div>{Delivery}</div>
               <div>{deliveryCharge == 0 ? "Free" : deliveryCharge} </div>
             </CartSummaryItem>
             <CartTotalPrice>
-              <div>Total Price</div>
+              <div>{TotalPrice}</div>
               <div>₹{finalPrice}</div>
             </CartTotalPrice>
             {!orderInProgress ? (
@@ -138,7 +164,7 @@ export const CartScreen = () => {
                   setOrderInProgress(true);
                 }}
               >
-                Place Order
+               {PlaceOrder}
               </PlaceOrderButton>
             ) : (
               <GoBackToCartButton
@@ -146,7 +172,7 @@ export const CartScreen = () => {
                   setOrderInProgress(false);
                 }}
               >
-                Go Back To Cart
+                {GoBackToCart}
               </GoBackToCartButton>
             )}
           </CartSummaryContainer>

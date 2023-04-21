@@ -16,10 +16,10 @@ describe("Home", () => {
   });
 
   test("renders the category selection component", async () => {
-    const categorySelectionContainer = screen.getByTestId("categorySelection");
+    const CategoryNavbar = screen.getByTestId("categorySelection");
 
     await waitFor(() => {
-      expect(categorySelectionContainer).toBeInTheDocument();
+      expect(CategoryNavbar).toBeInTheDocument();
     });
   });
 });

@@ -50,6 +50,18 @@ describe("Wishlist", () => {
     expect(updatedWishlistItems[0].id).toBe(2);
   });
 
+  test("removes item from wishlist when remove button is clicked", () => {
+    act(() => {
+      const wishlistItems = [
+        { id: 1, description: "Product 1", price: 10 },
+        { id: 2, description: "Product 2", price: 20 },
+      ];
+      store.dispatch({ type: "SET_WISHLIST_ITEMS", payload: wishlistItems });
+    });
+    expect(screen.getByText("Product 1")).toBeInTheDocument();
+    expect(screen.getByText("Product 2")).toBeInTheDocument();
+  });
+
   test("adds item to cart when Add to Cart button is clicked", () => {
     const cartItems: cartItemType[] = [];
     store.dispatch({ type: "SET_CART_ITEMS", payload: cartItems });

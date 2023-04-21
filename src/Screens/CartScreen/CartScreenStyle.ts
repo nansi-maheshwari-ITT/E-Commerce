@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import theme from "../../Theme";
+import EmptyCart from "../../Assets/Images/EmptyCart.gif";
 
-const CartPageContainer = styled.div`
+interface CartPageContainerProps {
+  className?: string;
+}
+
+const CartPageContainer = styled.div<CartPageContainerProps>`
   display: flex;
   flex-direction: row;
   margin: 20px;
@@ -13,6 +18,11 @@ const CartPageContainer = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
+  }
+
+  &.empty-cart {
+    background-color: rgb(251 250 250);
+    margin: 1px 0px;
   }
 `;
 
@@ -58,12 +68,17 @@ const CartTotalPrice = styled(CartSummaryItem)`
 
 const CartEmptyMessage = styled.div`
   margin: auto;
-
-  height: 300px;
+  height: 350px;
 
   p {
     font-size: 25px;
     text-align: center;
+    margin: -80px;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
   }
 `;
 const PlaceOrderButton = styled.button`

@@ -29,8 +29,8 @@ const CardWrapper = styled.div`
 const FilterDiv = styled.div`
   margin: 20px auto;
   display: flex;
-  justify-content: space-between;
-  width: 10%;
+  justify-content: space-around;
+  width: 8%;
 
   .close-icon {
     height: 25px;
@@ -58,7 +58,7 @@ const SidebarButton = styled.button`
 `;
 
 const FilterIcon = styled(FontAwesomeIcon)`
-  margin-right: 8px;
+  font-size: 17px;
 `;
 
 const SidebarWrapper = styled.div`

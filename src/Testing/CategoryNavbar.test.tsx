@@ -1,12 +1,12 @@
 import { render, fireEvent } from "@testing-library/react";
-import { CategorySelectionContainer } from "../Components/CategorySelectionContainer";
+import { CategoryNavbar } from "../Components/CategoryNavbar";
 
 describe("CategorySelectionContainer", () => {
   const mockApplyFilter = jest.fn();
 
   it("renders category selection items correctly", () => {
     const { getByTestId, getByAltText, getByText } = render(
-      <CategorySelectionContainer applyFilter={mockApplyFilter} />
+      <CategoryNavbar applyFilter={mockApplyFilter} />
     );
 
     const categorySelectionContainer = getByTestId("categorySelection");
@@ -45,7 +45,7 @@ describe("CategorySelectionContainer", () => {
 
   it("calls applyFilter function with correct value on category selection", () => {
     const { getByAltText } = render(
-      <CategorySelectionContainer applyFilter={mockApplyFilter} />
+      <CategoryNavbar applyFilter={mockApplyFilter} />
     );
 
     const menCategoryImage = getByAltText("Men");

@@ -20,7 +20,7 @@ describe("Navbar", () => {
   });
 
   test("navigates to search page on search icon click with correct search query", () => {
-    const searchInput = screen.getByPlaceholderText("Search...");
+    const searchInput = screen.getByPlaceholderText("Search for products...");
     const searchIcon = screen.getByTestId("search-icon");
     fireEvent.change(searchInput, { target: { value: "test" } });
     fireEvent.click(searchIcon);
@@ -30,12 +30,12 @@ describe("Navbar", () => {
   test("navigates to login page on wishlist icon click if user is not logged in", () => {
     const wishlistIcon = screen.getByTestId("wishlist-icon");
     fireEvent.click(wishlistIcon);
-    expect(window.location.pathname).toBe("/login");
+    expect(window.location.pathname).toBe("/loginOrSignup");
   });
 
   test("navigates to login page on cart icon click if user is not logged in", () => {
     const cartIcon = screen.getByTestId("cart-icon");
     fireEvent.click(cartIcon);
-    expect(window.location.pathname).toBe("/login");
+    expect(window.location.pathname).toBe("/loginOrSignup");
   });
 });

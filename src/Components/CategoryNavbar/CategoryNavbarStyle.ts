@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "../../Theme";
 
-const CategorySelectionContainerWrapper = styled.div`
+const CategoryNavbarWrapper = styled.div`
   display: flex;
   height: 250px;
   margin: auto;
@@ -24,7 +24,6 @@ const CategorySelectionContainerWrapper = styled.div`
     text-align: center;
     width: 33.33%;
   }
-
   .img-wrapper {
     height: 125px;
     width: 120px;
@@ -34,22 +33,42 @@ const CategorySelectionContainerWrapper = styled.div`
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: box-shadow 0.3s ease-in-out;
+    cursor:pointer;
 
     @media (max-width: 768px) {
       height: 60px;
       width: 60px;
     }
-  }
 
-  img {
-    height: 100%;
-    object-fit: contain;
-  }
+    img {
+      height: 100%;
+      object-fit: contain;
+    }
 
-  .img-wrapper:hover {
-    border: none;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
-  }
-`;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -100%;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+    }
 
-export { CategorySelectionContainerWrapper };
+    &:hover {
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+
+      &::after {
+        transform: translateY(-100%);
+        opacity: 1;
+      }
+    }
+  }
+}`;
+
+export { CategoryNavbarWrapper };
