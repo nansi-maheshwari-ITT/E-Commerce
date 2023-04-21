@@ -34,9 +34,6 @@ export const createAccount = async (
       displayName: formData.username,
     });
     setErrorMessage("Account is created successfully");
-    setTimeout(() => {
-      setErrorMessage("");
-    }, 3000);
     return true;
   } catch (error: any) {
     if (error.message == "Firebase: Error (auth/email-already-in-use).") {
@@ -51,9 +48,6 @@ export const createAccount = async (
     } else {
       setErrorMessage("Unknown error while creating account");
     }
-    setTimeout(() => {
-      setErrorMessage("");
-    }, 3000);
     return false;
   }
 };
@@ -85,9 +79,7 @@ export const loginToAccount = async (
       formData.password
     );
     setErrorMessage("Logged in successfully");
-    setTimeout(() => {
-      setErrorMessage("");
-    }, 3000);
+    
     return user;
   } catch (error: any) {
     if (error.message == "Firebase: Error (auth/wrong-password).") {
@@ -95,9 +87,7 @@ export const loginToAccount = async (
     } else {
       setErrorMessage("User does not exist");
     }
-    setTimeout(() => {
-      setErrorMessage("");
-    }, 3000);
+   
   }
 };
 

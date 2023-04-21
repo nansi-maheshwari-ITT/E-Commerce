@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ProductContainer } from "../../Components/ProductContainer";
 import { ProductDetailType } from "../Home/HomeInterface";
+import {  NoProductsMatched } from "./Constant";
 
 export const SearchedProduct = () => {
   const { product } = useParams();
@@ -23,7 +24,7 @@ export const SearchedProduct = () => {
         ></ProductContainer>
       ) : (
         <CartEmptyMessage data-testid="cartEmptyMessage">
-          <h1>No products matched your search {product}</h1>
+          <h1>{NoProductsMatched} {product}</h1>
         </CartEmptyMessage>
       )}
     </>

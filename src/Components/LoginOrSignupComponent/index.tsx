@@ -1,4 +1,4 @@
-import React from "react";
+import { LoginBtn, SignupBtn } from "./Constant";
 import { ComponentWrapper } from "./LoginOrSignupStyle";
 import { useNavigate } from "react-router-dom";
 import LoginImage from "../../Assets/Images/LoginImage.gif";
@@ -14,14 +14,14 @@ export const LoginOrSignup = () => {
             navigate("/login");
           }}
         >
-          Login
+          {LoginBtn}
         </button>
         <button
           onClick={() => {
             navigate("/signup");
           }}
         >
-          Signup
+          {SignupBtn}
         </button>
       </div>
     </ComponentWrapper>

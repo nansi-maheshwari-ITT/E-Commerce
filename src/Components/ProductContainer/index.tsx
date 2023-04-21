@@ -27,6 +27,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useState } from "react";
 import { ProductCard } from "../ProductCard";
 import { infoDataType } from "../../Screens/Home/HomeInterface";
+import { FilterBtnText,RatingText,PriceText,SearchHeading,ProductsHeading,Filters } from "./Constant";
 
 export const ProductContainer: React.FC<ProductContainerProps> = ({
   productDetails,
@@ -57,9 +58,9 @@ export const ProductContainer: React.FC<ProductContainerProps> = ({
   return (
     <CardDiv data-testid="productContainer">
       {searchingProduct ? (
-        <h1>Products related to your search "{searchingProduct}"</h1>
+        <h1>{SearchHeading} "{searchingProduct}"</h1>
       ) : (
-        <h1>Get the best deals here!</h1>
+        <h1>{ProductsHeading}</h1>
       )}
 
       <CardWrapper>
@@ -84,12 +85,12 @@ export const ProductContainer: React.FC<ProductContainerProps> = ({
           className={isSidebarOpen ? "sidebar-open" : "sidebar-closed"}
         >
           <SidebarContent>
-            <SidebarTitle>Filters</SidebarTitle>
+            <SidebarTitle>{Filters}</SidebarTitle>
             <SidebarCloseButton onClick={handleSidebarClick}>
               <FontAwesomeIcon icon={faTimes as IconProp} />
             </SidebarCloseButton>
             <FilterContainer>
-              <FilterLabel>Price: ₹{price}</FilterLabel>
+              <FilterLabel>{PriceText}{price}</FilterLabel>
               <PriceSlider
                 type="range"
                 min="100"
@@ -99,7 +100,7 @@ export const ProductContainer: React.FC<ProductContainerProps> = ({
               />
             </FilterContainer>
             <FilterContainer>
-              <FilterLabel>Rating: {rating.toFixed(1)}</FilterLabel>
+              <FilterLabel>{RatingText}{rating.toFixed(1)}</FilterLabel>
               <RatingSlider
                 type="range"
                 min="0"
@@ -111,7 +112,7 @@ export const ProductContainer: React.FC<ProductContainerProps> = ({
             </FilterContainer>
 
             <ApplyFiltersButton onClick={applyFilters}>
-              Apply Filters
+             {FilterBtnText}
             </ApplyFiltersButton>
           </SidebarContent>
         </SidebarWrapper>

@@ -4,11 +4,8 @@ import { AuthButton } from "../../Components/Atoms/AuthButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { SignUpFormInterface } from "./SignUpFormInterface";
-import { collection, doc, setDoc } from "firebase/firestore";
-import { db, auth } from "../../Configuration/Configuration";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import Notification from "../../Components/Notification";
 import { createAccount, createUserCollection } from "../../Services/Services";
+import { AlreadyMember, LoginText } from "./Constant";
 
 export const SignupPage = () => {
   const [active, setActive] = useState<boolean>(false);
@@ -41,9 +38,6 @@ export const SignupPage = () => {
     event.preventDefault();
     if (!formData.email || !formData.password || !formData.username) {
       setErrorMessage("Please fill all the fields");
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 3000);
     } else {
       if (await createAccount(formData, setErrorMessage)) {
         createUserCollection(formData);
@@ -56,7 +50,6 @@ export const SignupPage = () => {
 
   return (
     <>
-      {errorMessage && <Notification text={errorMessage}></Notification>}{" "}
       <SignUpFormContainer>
         <div className={`form-container ${active && "active"}`}>
           <div className="form-heading">Create Account</div>
@@ -89,11 +82,12 @@ export const SignupPage = () => {
               handleFormDataChange={handleFormDataChange}
             ></InputField>
             <AuthButton text="Create account "></AuthButton>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </form>
 
           <p className="login-link">
-            Already a member?
-            <Link to="/login">Log in here</Link>
+            {AlreadyMember}
+            <Link to="/login">{LoginText}</Link>
           </p>
         </div>
       </SignUpFormContainer>

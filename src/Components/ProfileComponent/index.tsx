@@ -21,6 +21,7 @@ import {
 } from "../../Redux/Actions";
 import { updateDataInFirebase } from "../../Services/Services";
 import Notification from "../Notification";
+import { Cart, Hello, LoginText, Logout, OrderHistory, Usertext, Wishlist } from "./Constant";
 
 const ProfileIcon = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -62,41 +63,41 @@ const ProfileIcon = () => {
       <Dropdown data-testid="dropdown">
         {!emailId ? (
           <>
-            <DropdownText>Hello User !</DropdownText>
+            <DropdownText>{Usertext}</DropdownText>
             <DropdownLink
               data-testid="login/signup"
               onClick={() => {
                 navigate("/login");
               }}
             >
-              Login/Signup
+              {LoginText}
             </DropdownLink>
           </>
         ) : (
           <>
-            <DropdownText>Hello {userName} !</DropdownText>
+            <DropdownText>{Hello} {userName} !</DropdownText>
             <DropdownLink
               onClick={() => {
                 navigate("/wishlist");
               }}
             >
-              Wishlist
+              {Wishlist}
             </DropdownLink>
             <DropdownLink
               onClick={() => {
                 navigate("/cart");
               }}
             >
-              Cart
+              {Cart}
             </DropdownLink>
             <DropdownLink
               onClick={() => {
                 navigate("/orderHistory");
               }}
             >
-              Order History
+              {OrderHistory}
             </DropdownLink>
-            <DropdownLink onClick={handleUserLogout}>Logout</DropdownLink>
+            <DropdownLink onClick={handleUserLogout}>{Logout}</DropdownLink>
           </>
         )}
       </Dropdown>

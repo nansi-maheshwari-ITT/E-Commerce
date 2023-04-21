@@ -20,6 +20,7 @@ import {
   OrderHistoryEmptyMessage,
 } from "./OrderHistoryStyle";
 import { OrderHistoryProps } from "./OrderHistoryInterface";
+import { BackToHome, NoOrders, TotalPrice } from "./Constant";
 
 export const OrderHistory = () => {
   const email = localStorage.getItem("email");
@@ -37,7 +38,6 @@ export const OrderHistory = () => {
     }
   };
 
-
   useEffect(() => {
     fetchOrderHistory();
   }, []);
@@ -46,7 +46,7 @@ export const OrderHistory = () => {
     <>
       {" "}
       {isDataLoading ? (
-        <LoaderContainer>
+        <LoaderContainer data-testid="order-history-empty">
           <Oval />
         </LoaderContainer>
       ) : (
@@ -55,10 +55,10 @@ export const OrderHistory = () => {
           {orderHistory.length > 0 ? (
             <OrderHistoryContainer>
               <TotalItemsContainer>
-                <h3>Order ID</h3>
-                <h3>Total Items</h3>
-                <h3>Purchased Items</h3>
-                <h3>Total Amount</h3>
+                <h3>{OrderId}</h3>
+                <h3>{TotalItems}</h3>
+                <h3>{PurchasedItems}</h3>
+                <h3>{TotalPrice}</h3>
               </TotalItemsContainer>
 
               <TotalItemsDetailContainer>
@@ -80,7 +80,7 @@ export const OrderHistory = () => {
                 ))}
               </TotalItemsDetailContainer>
               <ViewButton onClick={() => navigate("/")}>
-                &lt; Back to Home
+                &lt; {BackToHome}
               </ViewButton>
             </OrderHistoryContainer>
           ) : (
@@ -90,7 +90,7 @@ export const OrderHistory = () => {
                 <img src={EmptyCart}></img>
               </div>
 
-              <p>You Haven't ordered anything yet !</p>
+              <p>{NoOrders}</p>
             </OrderHistoryEmptyMessage>
           )}
         </>

@@ -32,6 +32,7 @@ import {
   updateWishlistDataInFirebase,
 } from "../../Services/Services";
 import Notification from "../Notification";
+import { ViewBtnText,PriceText,Discounttext,Reviews} from "./Constant";
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const email = localStorage.getItem("email");
@@ -171,15 +172,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <RatingText>
           <Star icon={faStar as IconProp} /> {product.rating} |{" "}
           <img src={VerificationIcon}></img>{" "}
-          <span> {generateRandomReviews()} Reviews</span>
+          <span> {generateRandomReviews()} {Reviews}</span>
         </RatingText>
       </Rating>
       <Price>
-        Rs.{product.price} {"  "}
+      {PriceText}{product.price} {"  "}
         <span className="original-price">
-          {"   "}Rs.{originalPrice}
+          {"   "}{PriceText}{originalPrice}
         </span>
-        <span className="discount"> ({generateDiscount()}% off)</span>
+        <span className="discount"> ({generateDiscount()}{Discounttext})</span>
       </Price>
       <ButtonGroup>
         <ViewButton
@@ -187,7 +188,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             naviagateToProductDetailPage(product.id);
           }}
         >
-          View
+          {ViewBtnText}
         </ViewButton>
       </ButtonGroup>
     </Card>

@@ -13,7 +13,7 @@ import {
   Button,
 } from "./NavbarStyle";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-
+import { LogoText } from "./Constant";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ProfileIcon from "../ProfileComponent";
@@ -45,7 +45,7 @@ export const Navbar = () => {
           navigate(`/`);
         }}
       >
-        Shopify
+        {LogoText}
       </Logo>
       <NavItems>
         <SearchBar>

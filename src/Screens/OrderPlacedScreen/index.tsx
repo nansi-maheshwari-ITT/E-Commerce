@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { OrderPlacedWrapper } from "./OrderPlacedScreenStyle";
 import Notification from "../../Components/Notification";
 import OrderPlacedIcon from "../../Assets/Images/OrderPlaced.gif";
+import { ContinueShopping, OrderPlacedText } from "./Constant";
 
 export const OrderPlaced = () => {
   const navigate = useNavigate();
@@ -9,13 +10,13 @@ export const OrderPlaced = () => {
     <OrderPlacedWrapper data-testid="order-placed-screen">
       <Notification text="Your order is successfully placed"></Notification>
       <img src={OrderPlacedIcon}></img>
-      <p>Your Order is Placed</p>
+      <p>{OrderPlacedText}</p>
       <button
         onClick={() => {
           navigate(`/`);
         }}
       >
-        Continue Shopping
+        {ContinueShopping}
       </button>
     </OrderPlacedWrapper>
   );

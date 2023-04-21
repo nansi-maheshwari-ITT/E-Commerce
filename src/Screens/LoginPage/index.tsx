@@ -16,6 +16,7 @@ import {
 import { UserStatusInterface } from "../../Components/Navbar/NavbarInterface";
 import Notification from "../../Components/Notification";
 import { fetchUsersDetails, loginToAccount } from "../../Services/Services";
+import { DontHaveAccount, LoginText, SignupText } from "./Constant";
 
 export const LoginPage = () => {
   const [active, setActive] = useState(false);
@@ -67,9 +68,7 @@ export const LoginPage = () => {
     event.preventDefault();
     if (!formData.email || !formData.password) {
       setErrorMessage("Please fill all the fields");
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 3000);
+      
     } else {
       const user = await loginToAccount(formData, setErrorMessage);
       if (user) {
@@ -102,10 +101,9 @@ export const LoginPage = () => {
 
   return (
     <>
-      {errorMessage && <Notification text={errorMessage}></Notification>}
       <LogInFormContainer>
         <div className={`form-container ${active && "active"}`}>
-          <div className="form-heading">Log In</div>
+          <div className="form-heading">{LoginText}</div>
           <form onSubmit={handleFormDataSubmit}>
             {inputFields.map((field) => (
               <InputField
@@ -120,10 +118,11 @@ export const LoginPage = () => {
               />
             ))}
             <AuthButton text="Log in"></AuthButton>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </form>
           <p className="signup-link">
-            Don't have an account?
-            <Link to="/signup">Sign Up here</Link>
+            {DontHaveAccount}
+            <Link to="/signup">{SignupText}</Link>
           </p>
         </div>
       </LogInFormContainer>

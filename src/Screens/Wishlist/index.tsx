@@ -25,6 +25,7 @@ import {
   updateDataInFirebase,
   updateWishlistDataInFirebase,
 } from "../../Services/Services";
+import { AddToCartBtnText, EmptyWishlistMessage } from "./Constant";
 
 export const Wishlist = () => {
   const dispatch = useDispatch();
@@ -90,7 +91,7 @@ export const Wishlist = () => {
         {wishlistItems.length === 0 ? (
           <CartEmptyMessage data-testid="wishlistEmptyMessage">
             <img src={WishlistEmpty}></img>
-            <p>Your wishlist is empty</p>
+            <p>{EmptyWishlistMessage}</p>
           </CartEmptyMessage>
         ) : (
           <>
@@ -111,7 +112,7 @@ export const Wishlist = () => {
                   }}
                   data-testid={`addToCartButton-${product.id}`}
                 >
-                  Add to cart
+                 {AddToCartBtnText}
                 </AddToCartButton>
               </CardContainer>
             ))}

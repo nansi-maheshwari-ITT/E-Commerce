@@ -20,7 +20,7 @@ describe("OrderHistory component", () => {
       </BrowserRouter>
     );
 
-    const loadingMessage = screen.getByText("Loading order history...");
+    const loadingMessage = screen.getByTestId("order-history-empty");
     expect(loadingMessage).toBeInTheDocument();
   });
 });

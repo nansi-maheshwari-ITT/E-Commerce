@@ -26,15 +26,11 @@ import { WishlistState } from "../../Redux/Reducer/SetWishlistItems";
 import { useState, useEffect } from "react";
 import Notification from "../Notification";
 import { saveCartItems, saveWishlistItems } from "../../Redux/Actions";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import {
-  faHeart as faSolidHeart,
-  faCartShopping as faSolidCart,
-} from "@fortawesome/free-solid-svg-icons";
 import {
   updateCartDataInFirebase,
   updateWishlistDataInFirebase,
 } from "../../Services/Services";
+import { ComboOffer,DealsText,Discounttext,DescriptionText,SeeAllProducts} from "./Constant";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -180,9 +176,9 @@ const ProductDetails = () => {
           {productDetail?.rating}
           <FontAwesomeIcon icon={faStar as IconProp} />
         </RatingButton>
-        <p className="product-offer">30% off Only for today</p>
+        <p className="product-offer">{Discounttext}</p>
         <ProductPrice>{`Price: Rs.${productDetail?.price}`}</ProductPrice>
-        <p>Detailed description goes here...</p>
+        <p>{DescriptionText}</p>
         <div className="quantity-selection-bar">
           <label htmlFor="quantity">Quantity:</label>
           <select
@@ -223,9 +219,9 @@ const ProductDetails = () => {
           {[...Array(3)].map((_, index) => (
             <li key={index}>
               <img src={OfferIcon} width="18" height="18" />
-              <span className="u8dYXW">Combo Offer</span>
-              <span>Buy 3-4 items save 5%; Buy 5 or more save 7%</span>
-              <a>See all products</a>
+              <span className="u8dYXW">{ComboOffer}</span>
+              <span>{DealsText}</span>
+              <a>{SeeAllProducts}</a>
 
               <span>T&amp;C</span>
             </li>

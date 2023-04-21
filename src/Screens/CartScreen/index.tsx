@@ -18,6 +18,7 @@ import { saveCartItems } from "../../Redux/Actions";
 import Notification from "../../Components/Notification";
 import { PurchaseOrderForm } from "../../Components/PurchaseOrderForm";
 import { updateCartDataInFirebase } from "../../Services/Services";
+import { CartSummary, Delivery, Discount, EmptyCartMessage, GoBackToCart, PlaceOrder, TotalItems, TotalPrice } from "./Constant";
 
 export const CartScreen = () => {
   const dispatch = useDispatch();
@@ -114,7 +115,7 @@ export const CartScreen = () => {
       {cartItems.length === 0 ? (
         <CartEmptyMessage data-testid="empty-cart-message">
           <img src={EmptyCart} alt="" />
-          <p>Your cart is empty</p>
+          <p>{EmptyCartMessage}</p>
         </CartEmptyMessage>
       ) : (
         <>
@@ -136,25 +137,25 @@ export const CartScreen = () => {
             )}
           </CartItemsContainer>
           <CartSummaryContainer>
-            <CartSummaryTitle>Cart Summary</CartSummaryTitle>
+            <CartSummaryTitle>{CartSummary}</CartSummaryTitle>
             <CartSummaryItem>
-              <div>Total Items</div>
+              <div>{TotalItems}</div>
               <div>{cartItems.length}</div>
             </CartSummaryItem>
             <CartSummaryItem>
-              <div>Total Price</div>
-              <div>₹{getTotalPrice()}</div>
+              <div>{TotalPrice}</div>
+              <div>Rs.{getTotalPrice()}</div>
             </CartSummaryItem>
             <CartSummaryItem>
-              <div>Discount</div>
-              <div>-₹{discountedPrice}</div>
+              <div>{Discount}</div>
+              <div>-Rs.{discountedPrice}</div>
             </CartSummaryItem>
             <CartSummaryItem>
-              <div>Delivery</div>
+              <div>{Delivery}</div>
               <div>{deliveryCharge == 0 ? "Free" : deliveryCharge} </div>
             </CartSummaryItem>
             <CartTotalPrice>
-              <div>Total Price</div>
+              <div>{TotalPrice}</div>
               <div>₹{finalPrice}</div>
             </CartTotalPrice>
             {!orderInProgress ? (
@@ -163,7 +164,7 @@ export const CartScreen = () => {
                   setOrderInProgress(true);
                 }}
               >
-                Place Order
+               {PlaceOrder}
               </PlaceOrderButton>
             ) : (
               <GoBackToCartButton
@@ -171,7 +172,7 @@ export const CartScreen = () => {
                   setOrderInProgress(false);
                 }}
               >
-                Go Back To Cart
+                {GoBackToCart}
               </GoBackToCartButton>
             )}
           </CartSummaryContainer>

@@ -40,3 +40,8 @@ export const inputFields: Field[] = [
     value: "",
   },
 ];
+
+export const PaymentOption="Payment Option";
+export const CodText="Cash on Delivery";
+export const OnlyCodAvailable="Only Cash on Delivery is available";
+export const ConfirmOrder="Confirm Order";
